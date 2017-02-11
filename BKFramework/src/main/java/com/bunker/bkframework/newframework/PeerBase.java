@@ -45,11 +45,11 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	 * 여기서 생성하는 기본형이 아닌 객체들은 프로토타입으로 공유된다.
 	 */
 	/** 처리가 끝났으나 마지막 패킷이 도착하지 않은 패킷들*/
-	private List<Packet<PacketType>> accumList;
+	private List<Packet<PacketType>> mAccumList;
 	/** 사용해야할 라이프 사이클*/
 	private LifeCycle mLifeCycle;
 	/** 아직 처리되지 않은 패킷들  */
-	private List<PacketType> nonPrehandleList;
+	private List<PacketType> mNonPrehandleList;
 	/** 클라이언트 쓰레드가 생명주기 안에 있는지*/
 	private boolean isHandling = false;
 	/** 답장을 위한 클래스*/
@@ -91,8 +91,8 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 
 	@Override
 	public void life() {
-		synchronized (nonPrehandleList) {
-			Iterator<PacketType> iterator = nonPrehandleList.iterator();
+		synchronized (mNonPrehandleList) {
+			Iterator<PacketType> iterator = mNonPrehandleList.iterator();
 
 			while (iterator.hasNext()) {
 				pushPacket(iterator.next());
@@ -102,19 +102,19 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * 패킷의 한 단위를 처리해서 {@link #accumList}에 넣는 메서드
+	 * 패킷의 한 단위를 처리해서 {@link #mAccumList}에 넣는 메서드
 	 * 만약 패킷이 마지막 패킷일 경우 이전의 패킷들을 합산하여 하나의 패킷으로 만들고
 	 * 하위 클래스로 전달한다.
 	 * @param bytes 처리할 패킷(헤더 + 페이로드)
 	 */
 	private void pushPacket(PacketType bytes) {
 		Packet<PacketType> packet = preHandling(bytes);
-		accumList.add(packet);
+		mAccumList.add(packet);
 
 		if (packet.isFinal()) {
 			Packet<PacketType> result = combinePacket();
 			mReceiver.decodePacket(result.getData(), packet.getSequence());
-			accumList.clear();
+			mAccumList.clear();
 		}
 	}
 
@@ -124,19 +124,19 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * {@link #accumList}에 쌓여있는 패킷을을 하나로 합친다.
+	 * {@link #mAccumList}에 쌓여있는 패킷을을 하나로 합친다.
 	 * @return 하나로 합쳐진 패킷
 	 */
 	private Packet<PacketType> combinePacket() {
 		int size = 0;
 
-		for (Packet<PacketType> p : accumList) {
+		for (Packet<PacketType> p : mAccumList) {
 			size += p.getSize();
 		}
 
 		Packet<PacketType> result = mPacketFactory.creatPacket(size);
 
-		for (Packet<PacketType> p: accumList) {
+		for (Packet<PacketType> p: mAccumList) {
 			result.putDataAtLast(p.getData());
 		}
 		return result;
@@ -146,12 +146,12 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	final public boolean dispatch(PacketType read) {
 		boolean ret;
 		//동기화 시작
-		synchronized (nonPrehandleList) {
+		synchronized (mNonPrehandleList) {
 			ret = isHandling;
 			if (isHandling == false) {
 				isHandling = true;
 			}
-			nonPrehandleList.add(read);
+			mNonPrehandleList.add(read);
 		}
 		return ret;
 	}
@@ -159,8 +159,8 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	@Override
 	public boolean needRecycle() {
 		boolean ret;
-		synchronized (nonPrehandleList) {
-			if (nonPrehandleList.isEmpty())
+		synchronized (mNonPrehandleList) {
+			if (mNonPrehandleList.isEmpty())
 				isHandling = false;
 			ret = isHandling;
 		}
@@ -195,8 +195,8 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	 */
 	private final void init() {
 		mReceiver = this;
-		accumList = new LinkedList<>();
-		nonPrehandleList = new LinkedList<>();
+		mAccumList = new LinkedList<>();
+		mNonPrehandleList = new LinkedList<>();
 	}
 
 	@Override
@@ -234,7 +234,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	public boolean interceptCycle() {
 		boolean ret;
 		//동기화 시작
-		synchronized (nonPrehandleList) {
+		synchronized (mNonPrehandleList) {
 			ret = isHandling;
 			if (isHandling == false) {
 				isHandling = true;
