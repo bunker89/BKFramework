@@ -5,13 +5,24 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import org.apache.commons.codec.binary.Hex;
-
 public class PasswordTool {
 	private final String _Log = "PasswordTool";
 
+	private final char[] DIGITS
+	= {'0', '1', '2', '3', '4', '5', '6', '7',
+			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+
+	public String toHex(byte[] data) {
+		final StringBuffer sb = new StringBuffer(data.length * 2);
+		for (int i = 0; i < data.length; i++) {
+			sb.append(DIGITS[(data[i] >>> 4) & 0x0F]);
+			sb.append(DIGITS[data[i] & 0x0F]);
+		}
+		return sb.toString();
+	}
+
 	private String inspectBytes(byte []sec) {
-		return new String(Hex.encodeHex(sec, false));
+		return toHex(sec);
 	}
 
 	public String createRandomToken() {
