@@ -7,11 +7,13 @@ import java.security.SecureRandom;
 
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.commons.codec.binary.Hex;
+
 public class PasswordTool {
 	private final String _Log = "PasswordTool";
 
 	private String inspectBytes(byte []sec) {
-		return DatatypeConverter.printHexBinary(sec);
+		return new String(Hex.encodeHex(sec, false));
 	}
 
 	public String createRandomToken() {
