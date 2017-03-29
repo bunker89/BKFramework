@@ -14,6 +14,8 @@ apply plugin: 'java'
 repositories {
     jcenter()
 }
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
