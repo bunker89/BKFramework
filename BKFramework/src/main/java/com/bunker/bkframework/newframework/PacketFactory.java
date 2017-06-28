@@ -6,6 +6,7 @@ public interface PacketFactory <PacketType> {
 	 * @param pack
 	 * @return
 	 */
+
 	public Packet<PacketType> creatPacket(PacketType pack);
 	/**
 	 * create empty packet

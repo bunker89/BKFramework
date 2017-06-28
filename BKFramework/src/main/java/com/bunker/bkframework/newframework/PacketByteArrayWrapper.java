@@ -23,7 +23,7 @@ public class PacketByteArrayWrapper implements Iterator<byte[]> {
 	public short flag;
 	public int sequance;
 	public int currentIndex;
-	public byte[] buffer = new byte[PACKET_TOTAL_SIZE];
+	public byte[] buffer = new byte[PACKET_DEFAULT_TOTAL_SIZE];
 	private static int sequanceFlow = 0;
 	private Integer reservedSequence;
 

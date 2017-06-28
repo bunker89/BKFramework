@@ -5,4 +5,5 @@ public interface Writer<PacketType> {
 	public void write(PacketType b);
 	public Writer<PacketType> unDecoWriter();	
 	public void destroy();
+	public void setWriteBufferSize(int size);
 }

@@ -1,59 +1,75 @@
 package com.bunker.bkframework.newframework;
 
-import static com.bunker.bkframework.newframework.Constants.FLAG_LAST;
-import static com.bunker.bkframework.newframework.Constants.PAYLOAD_OFFSET;
-import static com.bunker.bkframework.newframework.Constants.PAYLOAD_SIZE_OFFSET;
-import static com.bunker.bkframework.newframework.Constants.SEQUENCE_OFFSET;
+import static com.bunker.bkframework.newframework.Constants.*;
 
 import java.nio.ByteBuffer;
 
 public class ByteBufferPacket implements Packet<ByteBuffer>{
-	public boolean isFinal;
-	public int sequence;
-	public int payloadSize;
-	public ByteBuffer payloadBuffer;
+	public boolean mIsFinal;
+	public boolean mIsFrameworkPacket = false;
+	public int mSequence;
+	public int mPayloadSize;
+	public ByteBuffer mPayloadBuffer;
+	private short mFlag = 0;
 
 	public ByteBufferPacket(int size) {
-		payloadBuffer = ByteBuffer.allocate(size);
-		payloadSize = size;
+		mPayloadBuffer = ByteBuffer.allocate(size);
+		mPayloadSize = size;
 	}
-
+	
 	public ByteBufferPacket(ByteBuffer packet) {
-		if ((packet.getShort(0) & FLAG_LAST) == FLAG_LAST)
-			isFinal = true;
-		payloadSize = packet.getShort(PAYLOAD_SIZE_OFFSET);
-		sequence = packet.getInt(SEQUENCE_OFFSET);
-		payloadBuffer = ByteBuffer.allocate(payloadSize);
+		mFlag = packet.getShort(FLAG_OFFSET);
+		parseFlag(mFlag);
+		mPayloadSize = packet.getShort(PAYLOAD_SIZE_OFFSET);
+		mSequence = packet.getInt(SEQUENCE_OFFSET);
+		mPayloadBuffer = ByteBuffer.allocate(mPayloadSize);
 		packet.position(PAYLOAD_OFFSET);
-		packet.limit(PAYLOAD_OFFSET + payloadSize);
-		payloadBuffer.put(packet);
-		payloadBuffer.position(payloadSize);
+		packet.limit(PAYLOAD_OFFSET + mPayloadSize);
+		mPayloadBuffer.put(packet);
+		mPayloadBuffer.position(mPayloadSize);
+	}
+	
+	private void parseFlag(short flag) {
+		if ((flag & FLAG_LAST) == FLAG_LAST)
+			mIsFinal = true;
+		if ((flag & FLAG_FRAMEWORK_PACKET) == FLAG_FRAMEWORK_PACKET)
+			mIsFrameworkPacket = true;	
 	}
 
 	@Override
 	public ByteBuffer getData() {
-		ByteBuffer temp = payloadBuffer.duplicate();
+		ByteBuffer temp = mPayloadBuffer.duplicate();
 		temp.flip();
 		return temp;
 	}
 
 	@Override
 	public int getSize() {
-		return payloadSize;
+		return mPayloadSize;
 	}
 
 	@Override
 	public boolean isFinal() {
-		return isFinal;
+		return mIsFinal;
 	}
 
 	@Override
 	public int getSequence() {
-		return sequence;
+		return mSequence;
 	}
 
 	@Override
 	public void putDataAtLast(ByteBuffer packet) {
-		payloadBuffer.put(packet);		
+		mPayloadBuffer.put(packet);		
+	}
+
+	@Override
+	public boolean isFramworkPacket() {
+		return mIsFrameworkPacket;
+	}
+
+	@Override
+	public void putFrameworkPacketFlag(boolean isFramework) {
+		mIsFrameworkPacket = isFramework;
 	}
 }

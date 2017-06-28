@@ -242,4 +242,10 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 	public Secure<ByteBuffer> unDecoSecure(Secure<ByteBuffer> sec) {
 		return null;
 	}
+
+	@Override
+	public void setWriteBufferSize(int size) {
+		// TODO Auto-generated method stub
+		
+	}
 }

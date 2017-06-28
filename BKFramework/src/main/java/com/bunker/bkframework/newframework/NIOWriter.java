@@ -1,6 +1,7 @@
 package com.bunker.bkframework.newframework;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
@@ -44,10 +45,10 @@ public class NIOWriter implements Writer<ByteBuffer> {
 		while (wrapper.hasNext()) {
 //			System.out.println(wrapper.next());
 			ByteBuffer buffer = wrapper.next();
-			if (buffer == null || buffer.position() != 0 || buffer.limit() != Constants.PACKET_TOTAL_SIZE)
+			if (buffer == null || buffer.position() != 0 || buffer.limit() != Constants.PACKET_DEFAULT_TOTAL_SIZE)
 				System.out.println("err");
 			try {
-				if (buffer.limit() != Constants.PACKET_TOTAL_SIZE) {
+				if (buffer.limit() != Constants.PACKET_DEFAULT_TOTAL_SIZE) {
 					Logger.err(_TAG, "Write packet size error");
 					return;
 				}
@@ -83,6 +84,15 @@ public class NIOWriter implements Writer<ByteBuffer> {
 		try {
 			mChannel.close();
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void setWriteBufferSize(int size) {
+		try {
+			mChannel.socket().setSendBufferSize(size);
+		} catch (SocketException e) {
 			e.printStackTrace();
 		}
 	}

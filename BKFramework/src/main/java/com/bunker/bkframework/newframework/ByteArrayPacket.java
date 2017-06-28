@@ -1,55 +1,67 @@
 package com.bunker.bkframework.newframework;
 
-
 import static com.bunker.bkframework.newframework.Constants.*; 
 import java.nio.ByteBuffer;
 
 public class ByteArrayPacket implements Packet<byte[]> {
-	public boolean isFinal;
-	public int sequence;
-	public short payloadSize;
-	public byte[] payload;
-	public int lastIndex = 0;
+	public boolean mIsFinal;
+	public boolean mIsFrameworkPacket = false;
+	public int mSequence;
+	public short mPayloadSize;
+	public byte[] mPayload;
+	public int mLastIndex = 0;
 	
 	public ByteArrayPacket(short size) {
-		payload = new byte[size];
-		payloadSize = size;
+		mPayload = new byte[size];
+		mPayloadSize = size;
 	}
 
 	public ByteArrayPacket(byte[] packet) {
 		if ((packet[0] & FLAG_LAST) == FLAG_LAST)
-			isFinal = true;
+			mIsFinal = true;
+		if ((packet[0] & FLAG_FRAMEWORK_PACKET) == FLAG_FRAMEWORK_PACKET)
+			mIsFrameworkPacket = true;
 		ByteBuffer b = ByteBuffer.wrap(packet, PAYLOAD_SIZE_OFFSET, 2);
-		payloadSize = b.getShort();
-		payload = new byte[payloadSize];
+		mPayloadSize = b.getShort();
+		mPayload = new byte[mPayloadSize];
 		b = ByteBuffer.wrap(packet, SEQUENCE_OFFSET, 4);
-		sequence = b.getInt();
-		System.arraycopy(packet, PAYLOAD_OFFSET, payload, 0, payloadSize);
-		lastIndex = payloadSize;
+		mSequence = b.getInt();
+		System.arraycopy(packet, PAYLOAD_OFFSET, mPayload, 0, mPayloadSize);
+		mLastIndex = mPayloadSize;
 	}
 
 	public byte[] getData() {
-		return payload;
+		return mPayload;
 	}
 
 	@Override
 	public int getSize() {
-		return payloadSize;
+		return mPayloadSize;
 	}
 
 	@Override
 	public void putDataAtLast(byte []b) {
-		System.arraycopy(b, 0, payload, lastIndex, b.length);
-		lastIndex += b.length;
+		System.arraycopy(b, 0, mPayload, mLastIndex, b.length);
+		mLastIndex += b.length;
 	}
 
 	@Override
 	public boolean isFinal() {
-		return isFinal;
+		return mIsFinal;
 	}
 
 	@Override
 	public int getSequence() {
-		return sequence;
+		return mSequence;
+	}
+
+	@Override
+	public boolean isFramworkPacket() {
+		return mIsFrameworkPacket;
+	}
+
+	@Override
+	public void putFrameworkPacketFlag(boolean isFramework) {
+		mIsFrameworkPacket = isFramework;
 	}
 }

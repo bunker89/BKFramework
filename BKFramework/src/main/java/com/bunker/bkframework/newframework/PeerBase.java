@@ -38,9 +38,9 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	public static long currentTime = Calendar.getInstance().getTimeInMillis();
 	private PacketFactory<PacketType> mPacketFactory;
 	private SecureFactory<PacketType> mSecureFactory;
-	
+
 	// ----------------------------------개별 생성되는 자원들----------------------------------
-	
+
 	/**
 	 * 여기서 생성하는 기본형이 아닌 객체들은 프로토타입으로 공유된다.
 	 */
@@ -58,6 +58,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	/** 암호화 래핑 클래스*/
 	private Secure<PacketType> mSecure;
 	private boolean isStreamSet = false;
+	private Resource<PacketType> mResource;
 
 	// ----------------------------------상황에 따라 공유할 수도 있는 자원들----------------------------------
 
@@ -112,9 +113,13 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		mAccumList.add(packet);
 
 		if (packet.isFinal()) {
-			Packet<PacketType> result = combinePacket();
-			mReceiver.decodePacket(result.getData(), packet.getSequence());
-			mAccumList.clear();
+			if (packet.isFramworkPacket()) {
+	
+			} else {
+				Packet<PacketType> result = combinePacket();
+				mReceiver.decodePacket(result.getData(), packet.getSequence());
+				mAccumList.clear();
+			}
 		}
 	}
 
@@ -139,6 +144,8 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		for (Packet<PacketType> p: mAccumList) {
 			result.putDataAtLast(p.getData());
 		}
+		
+		result.putFrameworkPacketFlag(mAccumList.get(0).isFramworkPacket());
 		return result;
 	}
 
@@ -174,7 +181,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		cloned.init();
 		return cloned;
 	}
-	
+
 	@Override
 	public void close() {
 		/**

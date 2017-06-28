@@ -2,7 +2,7 @@ package com.bunker.bkframework.newframework;
 
 import static com.bunker.bkframework.newframework.Constants.FLAG_LAST;
 import static com.bunker.bkframework.newframework.Constants.FLAG_OFFSET;
-import static com.bunker.bkframework.newframework.Constants.PACKET_TOTAL_SIZE;
+import static com.bunker.bkframework.newframework.Constants.PACKET_DEFAULT_TOTAL_SIZE;
 import static com.bunker.bkframework.newframework.Constants.PAYLOAD_MAX;
 import static com.bunker.bkframework.newframework.Constants.PAYLOAD_OFFSET;
 import static com.bunker.bkframework.newframework.Constants.PAYLOAD_SIZE_OFFSET;
@@ -63,8 +63,8 @@ public class PacketByteBufferWrapper implements Iterator<ByteBuffer> {
 
 	@Override
 	public ByteBuffer next() {
-		buffer = ByteBuffer.allocateDirect(PACKET_TOTAL_SIZE);
-		if (buffer.limit() < PACKET_TOTAL_SIZE) {
+		buffer = ByteBuffer.allocateDirect(PACKET_DEFAULT_TOTAL_SIZE);
+		if (buffer.limit() < PACKET_DEFAULT_TOTAL_SIZE) {
 			flag += FLAG_LAST;
 			return buffer;
 		}
