@@ -89,9 +89,9 @@ public class NIOWriter implements Writer<ByteBuffer> {
 	}
 
 	@Override
-	public void setWriteBufferSize(int size) {
+	public void setWriteBufferSize(int sizeKB) {
 		try {
-			mChannel.socket().setSendBufferSize(size);
+			mChannel.socket().setSendBufferSize(sizeKB * 1024);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
