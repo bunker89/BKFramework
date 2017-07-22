@@ -30,7 +30,7 @@ public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
 		mUrl = url;
 		mPort = port;
 	}
-	
+
 	/**
 	 * Server
 	 */
@@ -40,8 +40,10 @@ public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
 			KeyStore ts;
 			ts = KeyStore.getInstance("JKS");
 
-			ks.load(new FileInputStream(keyStorePath), keyPass.toCharArray());
-			ts.load(new FileInputStream(trustPath), trustPass.toCharArray());
+			System.out.println("TempSSLSecureFactory:" + getClass().getClassLoader().getResource(keyStorePath));
+
+			ks.load(getClass().getClassLoader().getResourceAsStream(keyStorePath), keyPass.toCharArray());
+			ts.load(getClass().getClassLoader().getResourceAsStream(trustPath), trustPass.toCharArray());
 
 			KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
 			kmf.init(ks, keyPass.toCharArray());
@@ -50,7 +52,7 @@ public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
 			tmf.init(ts);
 
 			mContext = SSLContext.getInstance("TLSv1.2");
-			mContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);	
+			mContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);   
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -60,7 +62,7 @@ public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
 	public Secure<ByteBuffer> createSecure() {
 		try {
 			if (mUrl != null)
-			return new SSLEngineAdapter(mContext);
+				return new SSLEngineAdapter(mContext);
 			else
 				return new SSLEngineAdapter(mUrl, mPort, mContext);
 		} catch (KeyManagementException e) {
