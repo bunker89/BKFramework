@@ -59,6 +59,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	private Secure<PacketType> mSecure;
 	private boolean isStreamSet = false;
 	private Resource<PacketType> mResource;
+	private boolean mClosed = false;
 
 	// ----------------------------------상황에 따라 공유할 수도 있는 자원들----------------------------------
 
@@ -144,7 +145,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		for (Packet<PacketType> p: mAccumList) {
 			result.putDataAtLast(p.getData());
 		}
-		
+
 		result.putFrameworkPacketFlag(mAccumList.get(0).isFramworkPacket());
 		return result;
 	}
@@ -190,6 +191,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		if (mWriter != null) {
 			mWriter.destroy();
 		}
+		mClosed = true;
 	}
 
 	@Override
@@ -256,5 +258,10 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 
 	@Override
 	public void secureFault() {
+	}
+
+	@Override
+	public boolean isClosed() {
+		return mClosed;
 	}
 }

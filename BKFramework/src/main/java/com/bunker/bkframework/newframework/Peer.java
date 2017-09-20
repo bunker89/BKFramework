@@ -80,4 +80,10 @@ public interface Peer <PacketType> extends Runnable, Cloneable, PeerLife {
 	 * @param resource 객체의 리소스
 	 */
 	public void networkInited(Resource<PacketType> resource);
+	
+	/**
+	 * 피어가 닫혔는지 여부를 리턴한다.
+	 * @return 닫힘 여부
+	 */
+	public boolean isClosed();
 }
