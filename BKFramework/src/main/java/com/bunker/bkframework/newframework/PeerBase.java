@@ -38,6 +38,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	public static long currentTime = Calendar.getInstance().getTimeInMillis();
 	private PacketFactory<PacketType> mPacketFactory;
 	private SecureFactory<PacketType> mSecureFactory;
+	private final String _TAG = "PeerBase";
 
 	// ----------------------------------개별 생성되는 자원들----------------------------------
 
@@ -126,7 +127,11 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 
 	@Override
 	final public void run() {
-		mLifeCycle.manageLife(this);
+		try {
+			mLifeCycle.manageLife(this);
+		} catch (Exception e) {
+			Logger.err(_TAG, "run exception");
+		}
 	}
 
 	/**
@@ -236,7 +241,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 				setSecureDynamic(mSecureFactory.createSecure());
 			}
 		} else 
-			throw new RuntimeException("Peerbase networkConnected() is called before, this methos must be called once");
+			throw new RuntimeException("Peerbase networkConnected() is called before, this method must be called once");
 	}
 
 	@Override

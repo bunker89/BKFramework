@@ -1,5 +1,6 @@
 package com.bunker.bkframework.sec;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.nio.ByteBuffer;
 import java.security.KeyManagementException;
@@ -14,6 +15,7 @@ public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
 	private SSLContext mContext;
 	private String mUrl;
 	private int mPort;
+	private boolean mIsClient = false;
 
 
 	/**
@@ -29,6 +31,7 @@ public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
 		this(keyStorePath, keyPass, trustPath, trustPass);
 		mUrl = url;
 		mPort = port;
+		mIsClient = true;
 	}
 
 	/**
@@ -40,10 +43,37 @@ public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
 			KeyStore ts;
 			ts = KeyStore.getInstance("JKS");
 
-			System.out.println("TempSSLSecureFactory:" + getClass().getClassLoader().getResource(keyStorePath));
+			boolean keyExist = getClass().getClassLoader().getResource(keyStorePath) != null;
+			boolean trustExist = getClass().getClassLoader().getResource(trustPath) != null;
+			System.out.println("SSLSecureFactory:keyload classloader:" + keyExist + "," + "SSLSecureFactory:" + trustExist);
 
-			ks.load(getClass().getClassLoader().getResourceAsStream(keyStorePath), keyPass.toCharArray());
-			ts.load(getClass().getClassLoader().getResourceAsStream(trustPath), trustPass.toCharArray());
+			if (keyExist) {
+				ks.load(getClass().getClassLoader().getResourceAsStream(keyStorePath), keyPass.toCharArray());
+			} else {
+				File file = new File(keyStorePath);
+				if (!file.exists()) {
+					System.out.println("SSLSecureFactory:key file is not exist.");
+					return;
+				}
+				
+				FileInputStream fIn = new FileInputStream(file);
+				ks.load(fIn, keyPass.toCharArray());
+				System.out.println("SSLSecureFactory:keystore loaded.");
+			}
+
+			if (trustExist) {
+				ts.load(getClass().getClassLoader().getResourceAsStream(trustPath), trustPass.toCharArray());
+			} else {
+				File file = new File(trustPath);
+				if (!file.exists()) {
+					System.out.println("SSLSecureFactory:trust file is not exist.");
+					return;
+				}
+				
+				FileInputStream fIn = new FileInputStream(file);
+				ts.load(fIn, trustPass.toCharArray());				
+				System.out.println("SSLSecureFactory:trust loaded.");
+			}
 
 			KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
 			kmf.init(ks, keyPass.toCharArray());
@@ -52,7 +82,10 @@ public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
 			tmf.init(ts);
 
 			mContext = SSLContext.getInstance("TLSv1.2");
-			mContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);   
+			if (mIsClient)
+				mContext.init(null, null, null);   
+			else 
+				mContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);   
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,7 +94,7 @@ public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
 	@Override
 	public Secure<ByteBuffer> createSecure() {
 		try {
-			if (mUrl != null)
+			if (!mIsClient)
 				return new SSLEngineAdapter(mContext);
 			else
 				return new SSLEngineAdapter(mUrl, mPort, mContext);

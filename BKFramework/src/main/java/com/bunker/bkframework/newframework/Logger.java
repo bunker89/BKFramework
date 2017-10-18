@@ -29,7 +29,7 @@ public class Logger {
 			System.err.println();
 		}
 	};
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
 
 	synchronized public static void logging(String tag, String log) {
 		mLog.log(tag, log);

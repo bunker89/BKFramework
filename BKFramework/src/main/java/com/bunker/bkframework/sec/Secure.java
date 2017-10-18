@@ -16,4 +16,5 @@ import com.bunker.bkframework.newframework.Writer;
 public interface Secure <PacketType> extends Writer<PacketType>, PacketReceiver<PacketType> {
 	public void startHandShaking(Writer<PacketType> w, PacketReceiver<PacketType> r, SecureCallback callback);
 	public Secure<PacketType> unDecoSecure(Secure<PacketType> sec);
+	public void setWriterPrepare(Writer<PacketType> w);
 }

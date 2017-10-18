@@ -3,6 +3,7 @@ package com.bunker.bkframework.sec;
 import java.nio.ByteBuffer;
 import java.security.KeyManagementException;
 
+import javax.management.RuntimeErrorException;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLEngineResult;
@@ -105,7 +106,7 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 			sendHandShake();
 			if (++loopGuard > 15) {
 				Logger.err(_Tag, "Loop Over at decodeHandShake");
-				return;
+				throw new RuntimeException();
 			}
 		}
 	}
@@ -122,9 +123,10 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 			netDataOutBuffer.flip();
 			mWriter.write(netDataOutBuffer);
 			netDataOutBuffer.compact();
-			if (++loopGuard > 15) {
+			if (++loopGuard > 20) {
 				Logger.err(_Tag, "Loop Over at sendHandShake");
-				return;
+				System.exit(0);
+//				throw new RuntimeException();
 			}
 		}
 	}
@@ -218,7 +220,8 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 	}
 
 	private void destroyInternal() {
-		mCallback.secureFault();
+		if (mCallback != null)
+			mCallback.secureFault();
 	}
 
 	@Override
@@ -247,5 +250,10 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 	public void setWriteBufferSize(int size) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void setWriterPrepare(Writer<ByteBuffer> w) {
+		mWriter = w;
 	}
 }
