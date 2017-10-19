@@ -2,13 +2,14 @@ package com.bunker.bkframework.sec;
 
 import java.nio.ByteBuffer;
 import java.security.KeyManagementException;
+import java.security.cert.Certificate;
 
-import javax.management.RuntimeErrorException;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLEngineResult;
 import javax.net.ssl.SSLEngineResult.HandshakeStatus;
 import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.net.ssl.SSLSession;
 
 import com.bunker.bkframework.newframework.Logger;
@@ -43,7 +44,7 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 	public SSLEngineAdapter(SSLContext context) throws KeyManagementException, Exception {
 		engine = context.createSSLEngine();
 		engine.setUseClientMode(false);
-		engine.setNeedClientAuth(true);
+		engine.setWantClientAuth(true);
 		createBuffers(context);
 	}
 
@@ -95,8 +96,18 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 				break;
 
 			if (payLoadIn.position() > 0) {
+				try {
+					if (engine.getSession().getPeerCertificates().length < 1) {
+						Logger.err(_Tag, "Server Auth error");
+						destroyInternal();
+					}
+				} catch (SSLPeerUnverifiedException e1) {
+					Logger.err(_Tag, "Server Auth error");
+					destroyInternal();
+					return;
+				}
+
 				isHandShaked = true;
-//				System.out.println("handShake!");
 				mCallback.handShaked();
 				if (accum != null)
 					write(accum, accumNumber);
@@ -125,8 +136,7 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 			netDataOutBuffer.compact();
 			if (++loopGuard > 20) {
 				Logger.err(_Tag, "Loop Over at sendHandShake");
-				System.exit(0);
-//				throw new RuntimeException();
+				throw new RuntimeException();
 			}
 		}
 	}
@@ -155,7 +165,7 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 			}
 		}
 	}
-	
+
 	private static boolean checkState(SSLEngineResult result, SSLEngine engine) {
 		switch(result.getStatus()) {
 		case CLOSED:
@@ -249,7 +259,7 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 	@Override
 	public void setWriteBufferSize(int size) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
