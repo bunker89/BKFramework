@@ -22,7 +22,6 @@ public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
 	private int mPort;
 	private boolean mIsClient = false;
 
-
 	/**
 	 * Client
 	 * @param keyStorePath
@@ -101,7 +100,7 @@ public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
 	}
 
 	@Override
-	public Secure<ByteBuffer> createSecure() {
+	public SSLEngineAdapter createSecure() {
 		try {
 			if (mIsClient)
 				return new SSLEngineAdapter(mUrl, mPort, mContext);

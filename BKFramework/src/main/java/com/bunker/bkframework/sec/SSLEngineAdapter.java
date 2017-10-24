@@ -2,7 +2,6 @@ package com.bunker.bkframework.sec;
 
 import java.nio.ByteBuffer;
 import java.security.KeyManagementException;
-import java.security.cert.Certificate;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
@@ -46,6 +45,14 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 		engine.setUseClientMode(false);
 		engine.setWantClientAuth(true);
 		createBuffers(context);
+	}
+
+	public void setUseClientAuth(boolean bool) {
+		engine.setWantClientAuth(bool);
+	}
+
+	public void setNeedClientAuth(boolean bool) {
+		engine.setNeedClientAuth(bool);
 	}
 
 	public void startHandShaking(Writer<ByteBuffer> writer, PacketReceiver<ByteBuffer> peer, SecureCallback callback) {

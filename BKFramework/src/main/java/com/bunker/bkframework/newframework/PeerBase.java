@@ -24,10 +24,7 @@ import com.bunker.bkframework.sec.SecureFactory;
  * 패킷을 순서대로 저장하고 패킷의 마지막일 경우 누적된 패킷들을 합쳐서
  * 비즈니스 로직으로 전달한다.
  * 
- * 동기화순서
- * 1. 라이프에서 무조건 현재값 먼저 동기화 시킨다.
- * 2. 현재값을 다 처리하고 밀린 값들을 처리한다
- *
+ * 
  * @author Young soo Ahn <bunker.ys89@gmail.com>
  * 2016. 6. 26.
  *
@@ -51,6 +48,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	private LifeCycle mLifeCycle;
 	/** 아직 처리되지 않은 패킷들  */
 	private List<PacketType> mNonPrehandleList;
+	private Object mNonPreHandleMutex;
 	/** 클라이언트 쓰레드가 생명주기 안에 있는지*/
 	private boolean isHandling = false;
 	/** 답장을 위한 클래스*/
@@ -59,7 +57,6 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	/** 암호화 래핑 클래스*/
 	private Secure<PacketType> mSecure;
 	private boolean isStreamSet = false;
-	private Resource<PacketType> mResource;
 	private boolean mClosed = false;
 
 	// ----------------------------------상황에 따라 공유할 수도 있는 자원들----------------------------------
@@ -94,7 +91,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 
 	@Override
 	public void life() {
-		synchronized (mNonPrehandleList) {
+		synchronized (mNonPreHandleMutex) {
 			Iterator<PacketType> iterator = mNonPrehandleList.iterator();
 
 			while (iterator.hasNext()) {
@@ -159,7 +156,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	final public boolean dispatch(PacketType read) {
 		boolean ret;
 		//동기화 시작
-		synchronized (mNonPrehandleList) {
+		synchronized (mNonPreHandleMutex) {
 			ret = isHandling;
 			if (isHandling == false) {
 				isHandling = true;
@@ -172,7 +169,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	@Override
 	public boolean needRecycle() {
 		boolean ret;
-		synchronized (mNonPrehandleList) {
+		synchronized (mNonPreHandleMutex) {
 			if (mNonPrehandleList.isEmpty())
 				isHandling = false;
 			ret = isHandling;
@@ -211,6 +208,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		mReceiver = this;
 		mAccumList = new LinkedList<>();
 		mNonPrehandleList = new LinkedList<>();
+		mNonPreHandleMutex = new Object();
 	}
 
 	@Override
@@ -248,7 +246,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	public boolean interceptCycle() {
 		boolean ret;
 		//동기화 시작
-		synchronized (mNonPrehandleList) {
+		synchronized (mNonPreHandleMutex) {
 			ret = isHandling;
 			if (isHandling == false) {
 				isHandling = true;
