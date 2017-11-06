@@ -18,7 +18,7 @@ import java.util.Map;
 public class ByteBufferBusinessConnector implements BusinessConnector<ByteBuffer> {
 	private BusinessPeer<ByteBuffer> mPeer;
 	private Business<ByteBuffer> mBusiness;
-	private Map<String, Serializable> mEnviroment;
+	private Map<String, Object> mEnviroment;
 
 	public ByteBufferBusinessConnector(Business<ByteBuffer> business) {
 		mBusiness = business;
@@ -50,7 +50,7 @@ public class ByteBufferBusinessConnector implements BusinessConnector<ByteBuffer
 			throws CloneNotSupportedException {
 		ByteBufferBusinessConnector c = (ByteBufferBusinessConnector) clone();
 		c.mPeer = peer;
-		c.mEnviroment = new HashMap<String, Serializable>();
+		c.mEnviroment = new HashMap<String, Object>();
 		return c;
 	}
 
@@ -60,7 +60,7 @@ public class ByteBufferBusinessConnector implements BusinessConnector<ByteBuffer
 	}
 
 	@Override
-	public Map<String, Serializable> getEnviroment() {
+	public Map<String, Object> getEnviroment() {
 		return mEnviroment;
 	}
 }
