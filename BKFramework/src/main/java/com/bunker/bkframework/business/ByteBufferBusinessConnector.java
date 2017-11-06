@@ -1,5 +1,6 @@
 package com.bunker.bkframework.business;
 
+import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class ByteBufferBusinessConnector implements BusinessConnector<ByteBuffer> {
 	private BusinessPeer<ByteBuffer> mPeer;
 	private Business<ByteBuffer> mBusiness;
-	private Map<String, Object> mEnviroment;
+	private Map<String, Serializable> mEnviroment;
 
 	public ByteBufferBusinessConnector(Business<ByteBuffer> business) {
 		mBusiness = business;
@@ -49,7 +50,7 @@ public class ByteBufferBusinessConnector implements BusinessConnector<ByteBuffer
 			throws CloneNotSupportedException {
 		ByteBufferBusinessConnector c = (ByteBufferBusinessConnector) clone();
 		c.mPeer = peer;
-		c.mEnviroment = new HashMap<String, Object>();
+		c.mEnviroment = new HashMap<String, Serializable>();
 		return c;
 	}
 
@@ -59,7 +60,7 @@ public class ByteBufferBusinessConnector implements BusinessConnector<ByteBuffer
 	}
 
 	@Override
-	public Map<String, Object> getEnviroment() {
+	public Map<String, Serializable> getEnviroment() {
 		return mEnviroment;
 	}
 }
