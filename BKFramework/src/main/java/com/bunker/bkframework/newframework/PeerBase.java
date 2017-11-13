@@ -14,15 +14,15 @@ import com.bunker.bkframework.sec.SecureFactory;
  * Copyright 2016~ by bunker Corp.,
  * All rights reserved.
  * 
- * non-thread safe(╫га╕╥н╢б ╬╡╥╧╣Е ╪╪юлгааЖ╦╦ ╩Щ╦Маж╠Б╢б гоЁ╙╦╦ ╩Г©Кгя╢ы), non-reEntrant, ╤Сюлга╩Гюле╛ю╨ ╢эюо ╫ггЮ(фпе╤цЁ╦╝ ╠╦а╤╦╦ ╣©╠Бх╜)
- * е╛╤Сюл╬Пф╝╢б гоЁ╙юг ╬╡╥╧╣Е©║╪╜╦╦ ╫ггЮ╣г╦Г ╦╦╬Ю ╫ггЮ╣г╟М юж╢б
- * ╬╡╥╧╣Е╟║ южю╩ ╟Ф©Л ╫ггЮаъюн ╬╡╥╧╣Е©║ цЁ╦╝гр Ё╩©Кю╩ аж╟║╫цдя ЁУ╢б╢ы.
- * ╬╡╥╧╣Е╟║ а╬╥А╣г╦Г цЁ╦╝╣гаЖ ╬йю╨ фпе╤юл Ё╡╬ф южю╩ ╟Ф©Л
- * ╤Сюлга╩Гюле╛ю╩ юГ╫ггЮ ╫це╡╢ы.
+ * non-thread safe(О©╫О©╫О©╫О©╫О©╫н╢О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ж╠О©╫О©╫ О©╫оЁО©╫О©╫О©╫ О©╫О©╫О©╫О©╫я╢О©╫), non-reEntrant, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫е╛О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫(О©╫О©╫е╤цЁО©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫х╜)
+ * е╛О©╫О©╫О©╫л╬О©╫ф╝О©╫О©╫ О©╫оЁО©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫Е©║О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫г╦О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫г╟О©╫ О©╫ж╢О©╫
+ * О©╫О©╫О©╫О©╫О©╫Е╟║ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫Е©║ цЁО©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ж╟О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫б╢О©╫.
+ * О©╫О©╫О©╫О©╫О©╫Е╟║ О©╫О©╫О©╫О©╫г╦О©╫ цЁО©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫е╤О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫
+ * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫е╛О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫е╡О©╫О©╫.
  * 
- * ╨ЯаН╢о╫╨ ╥наВюг юЭ ╢э╟Х
- * фпе╤ю╩ ╪Ь╪╜╢К╥н юЗюЕго╟М фпе╤юг ╦╤аЖ╦╥юо ╟Ф©Л ╢╘юШ╣х фпе╤╣Ию╩ гуцд╪╜
- * ╨ЯаН╢о╫╨ ╥наВю╦╥н юЭ╢чгя╢ы.
+ * О©╫О©╫О©╫О©╫о╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫э╟О©╫
+ * О©╫О©╫е╤О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫о╟О©╫ О©╫О©╫е╤О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫е╤О©╫О©╫О©╫О©╫ О©╫О©╫О©╫д╪О©╫
+ * О©╫О©╫О©╫О©╫о╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫я╢О©╫.
  * 
  * 
  * @author Young soo Ahn <bunker.ys89@gmail.com>
@@ -31,35 +31,35 @@ import com.bunker.bkframework.sec.SecureFactory;
  *
  */
 abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketReceiver<PacketType>, SecureCallback {
-	// ----------------------------------╟Ью╞╣г╢б юз©Ь╣И----------------------------------
+	// ----------------------------------ЙЁ╣Л°═К░≤К┼■ Л·░Л⌡░----------------------------------
 	public static long currentTime = Calendar.getInstance().getTimeInMillis();
 	private PacketFactory<PacketType> mPacketFactory;
 	private SecureFactory<PacketType> mSecureFactory;
 	private final String _TAG = "PeerBase";
 
-	// ----------------------------------╟Ё╨╟ ╩Щ╪╨╣г╢б юз©Ь╣И----------------------------------
+	// ----------------------------------Й╟°КЁ└ Л·░Л⌡░----------------------------------
 
 	/**
-	 * ©╘╠Б╪╜ ╩Щ╪╨го╢б ╠Б╨╩гЭюл ╬ф╢я ╟╢ц╪╣Ию╨ га╥неДе╦ютю╦╥н ╟Ью╞╣х╢ы.
+	 * О©╫О©╫О©╫Б╪╜ О©╫О©╫О©╫О©╫О©╫о╢О©╫ О©╫Б╨╩О©╫О©╫О©╫О©╫ О©╫ф╢О©╫ О©╫О©╫ц╪О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫е╦О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫х╢О©╫.
 	 */
-	/** цЁ╦╝╟║ Ё║Ё╣ю╦Ё╙ ╦╤аЖ╦╥ фпе╤юл ╣╣бЬгоаЖ ╬йю╨ фпе╤╣И*/
+	/** цЁО©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫е╤О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫е╤О©╫О©╫*/
 	private List<Packet<PacketType>> mAccumList;
-	/** ╩Г©Кгь╬ъгр ╤Сюлга ╩Гюле╛*/
+	/** О©╫О©╫О©╫О©╫ь╬О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫е╛*/
 	private LifeCycle mLifeCycle;
-	/** ╬фаВ цЁ╦╝╣гаЖ ╬йю╨ фпе╤╣И  */
+	/** О©╫О©╫О©╫О©╫ цЁО©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫е╤О©╫О©╫  */
 	private List<PacketType> mNonPrehandleList;
 	private Object mNonPreHandleMutex;
-	/** е╛╤Сюл╬Пф╝ ╬╡╥╧╣Е╟║ ╩Щ╦Маж╠Б ╬х©║ юж╢баЖ*/
+	/** е╛О©╫О©╫О©╫л╬О©╫ф╝ О©╫О©╫О©╫О©╫О©╫Е╟║ О©╫О©╫О©╫О©╫О©╫ж╠О©╫ О©╫х©О©╫ О©╫ж╢О©╫О©╫О©╫*/
 	private boolean isHandling = false;
-	/** ╢ДюЕю╩ ю╖гя е╛╥║╫╨*/
+	/** О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ е╛О©╫О©╫О©╫О©╫*/
 	protected Writer<PacketType> mWriter;
 	protected PacketReceiver<PacketType> mReceiver;
-	/** ╬охёх╜ ╥║гн е╛╥║╫╨*/
+	/** О©╫О©╫хёх╜ О©╫О©╫О©╫О©╫ е╛О©╫О©╫О©╫О©╫*/
 	private Secure<PacketType> mSecure;
 	private boolean isStreamSet = false;
 	private boolean mClosed = false;
 
-	// ----------------------------------╩Сх╡©║ ╣Ш╤С ╟Ью╞гр ╪Ж╣╣ юж╢б юз©Ь╣И----------------------------------
+	// ----------------------------------О©╫О©╫х╡О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫ж╢О©╫ О©╫з©О©╫О©╫О©╫----------------------------------
 
 	public PeerBase(PacketFactory<PacketType> factory) {
 		this(factory, null);
@@ -72,8 +72,8 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * ╤Сюлга╩Гюле╛ю╩ аЖа╓гя╢ы
-	 * @param lifeCycle ╩Г©Кгр ╤Сюлга ╩Гюле╛
+	 * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫е╛О©╫О©╫ О©╫О©╫О©╫О©╫О©╫я╢О©╫
+	 * @param lifeCycle О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫е╛
 	 */
 	@Override
 	public void setLifeCycle(LifeCycle lifeCycle) {
@@ -81,8 +81,8 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * фпе╤ю╩ гЛ╢У©м фДюл╥н╣Е╥н ╠╦╨╟гь╪╜ ╟╢ц╪х╜ ╫це╡╢ы.
-	 * @param readCurrent юп╬Н╣Июн ╧Жфш (гЛ╢У + фДюл╥н╣Е)
+	 * О©╫О©╫е╤О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫л╥н╣О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ь╪О©╫ О©╫О©╫ц╪х╜ О©╫О©╫е╡О©╫О©╫.
+	 * @param readCurrent О©╫п╬О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ (О©╫О©╫О©╫ + О©╫О©╫О©╫л╥н╣О©╫)
 	 * @return
 	 */
 	private Packet<PacketType> preHandling(PacketType readCurrent) {
@@ -102,10 +102,10 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * фпе╤юг гя ╢эю╖╦╕ цЁ╦╝гь╪╜ {@link #mAccumList}©║ Ёж╢б ╦ч╪╜╣Е
-	 * ╦╦╬Ю фпе╤юл ╦╤аЖ╦╥ фпе╤юо ╟Ф©Л юлюЭюг фпе╤╣Ию╩ гу╩Йго©╘ гоЁ╙юг фпе╤ю╦╥н ╦╦╣И╟М
-	 * гою╖ е╛╥║╫╨╥н юЭ╢чгя╢ы.
-	 * @param bytes цЁ╦╝гр фпе╤(гЛ╢У + фДюл╥н╣Е)
+	 * О©╫О©╫е╤О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ цЁО©╫О©╫О©╫ь╪О©╫ {@link #mAccumList}О©╫О©╫ О©╫ж╢О©╫ О©╫ч╪О©╫О©╫О©╫
+	 * О©╫О©╫О©╫О©╫ О©╫О©╫е╤О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫е╤О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫е╤О©╫О©╫О©╫О©╫ О©╫у╩О©╫О©╫о©О©╫ О©╫оЁО©╫О©╫О©╫ О©╫О©╫е╤О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
+	 * О©╫О©╫О©╫О©╫ е╛О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫я╢О©╫.
+	 * @param bytes цЁО©╫О©╫О©╫О©╫ О©╫О©╫е╤(О©╫О©╫О©╫ + О©╫О©╫О©╫л╥н╣О©╫)
 	 */
 	private void pushPacket(PacketType bytes) {
 		Packet<PacketType> packet = preHandling(bytes);
@@ -132,8 +132,8 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * {@link #mAccumList}©║ ╫в©╘юж╢б фпе╤ю╩ю╩ гоЁ╙╥н гудё╢ы.
-	 * @return гоЁ╙╥н гуцдаЬ фпе╤
+	 * {@link #mAccumList}О©╫О©╫ О©╫в©О©╫О©╫ж╢О©╫ О©╫О©╫е╤О©╫О©╫О©╫О©╫ О©╫оЁО©╫О©╫О©╫ О©╫О©╫дёО©╫О©╫.
+	 * @return О©╫оЁО©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫е╤
 	 */
 	private Packet<PacketType> combinePacket() {
 		int size = 0;
@@ -155,7 +155,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	@Override
 	final public boolean dispatch(PacketType read) {
 		boolean ret;
-		//╣©╠Бх╜ ╫цюш
+		//О©╫О©╫О©╫О©╫х╜ О©╫О©╫О©╫О©╫
 		synchronized (mNonPreHandleMutex) {
 			ret = isHandling;
 			if (isHandling == false) {
@@ -188,7 +188,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	@Override
 	public void close() {
 		/**
-		 * ©║╥╞╟║ юЩ╢К ╧ъ╩Щгь╪╜╢б ╬х╣х╢ы.
+		 * О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫ъ╩О©╫О©╫ь╪О©╫О©╫О©╫ О©╫х╣х╢О©╫.
 		 */
 		if (mWriter != null) {
 			mWriter.destroy();
@@ -202,7 +202,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * ╫ггЮюЭ цй╠Бх╜
+	 * О©╫О©╫О©╫О©╫О©╫О©╫ О©╫й╠О©╫х╜
 	 */
 	private final void init() {
 		mReceiver = this;
@@ -245,7 +245,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	@Override
 	public boolean interceptCycle() {
 		boolean ret;
-		//╣©╠Бх╜ ╫цюш
+		//О©╫О©╫О©╫О©╫х╜ О©╫О©╫О©╫О©╫
 		synchronized (mNonPreHandleMutex) {
 			ret = isHandling;
 			if (isHandling == false) {

@@ -16,7 +16,7 @@ public class ByteBufferPacket implements Packet<ByteBuffer>{
 		mPayloadBuffer = ByteBuffer.allocate(size);
 		mPayloadSize = size;
 	}
-	
+
 	public ByteBufferPacket(ByteBuffer packet) {
 		mFlag = packet.getShort(FLAG_OFFSET);
 		parseFlag(mFlag);
