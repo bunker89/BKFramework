@@ -14,15 +14,6 @@ import com.bunker.bkframework.sec.SecureFactory;
  * Copyright 2016~ by bunker Corp.,
  * All rights reserved.
  * 
- * non-thread safe(�����δ� ������ ���������� �����ֱ�� �ϳ��� ����Ѵ�), non-reEntrant, ����������Ŭ�� ���� ����(��Ŷó�� ������ ����ȭ)
- * Ŭ���̾�Ʈ�� �ϳ��� �����忡���� ����Ǹ� ���� ����ǰ� �ִ�
- * �����尡 ���� ��� �������� �����忡 ó���� ������ �ְ����� ���´�.
- * �����尡 ����Ǹ� ó������ ���� ��Ŷ�� ���� ���� ���
- * ����������Ŭ�� ����� ��Ų��.
- * 
- * ����Ͻ� ������ �� �ܰ�
- * ��Ŷ�� ������� �����ϰ� ��Ŷ�� �������� ��� ������ ��Ŷ���� ���ļ�
- * ����Ͻ� �������� �����Ѵ�.
  * 
  * 
  * @author Young soo Ahn <bunker.ys89@gmail.com>
@@ -39,22 +30,13 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 
 	// ----------------------------------개별 자원----------------------------------
 
-	/**
-	 * ���⼭ �����ϴ� �⺻���� �ƴ� ��ü���� ������Ÿ������ �����ȴ�.
-	 */
-	/** ó���� �������� ������ ��Ŷ�� �������� ���� ��Ŷ��*/
 	private List<Packet<PacketType>> mAccumList;
-	/** ����ؾ��� ������ ����Ŭ*/
 	private LifeCycle mLifeCycle;
-	/** ���� ó������ ���� ��Ŷ��  */
 	private List<PacketType> mNonPrehandleList;
 	private Object mNonPreHandleMutex;
-	/** Ŭ���̾�Ʈ �����尡 �����ֱ� �ȿ� �ִ���*/
 	private boolean isHandling = false;
-	/** ������ ���� Ŭ����*/
 	protected Writer<PacketType> mWriter;
 	protected PacketReceiver<PacketType> mReceiver;
-	/** ��ȣȭ ���� Ŭ����*/
 	private Secure<PacketType> mSecure;
 	private boolean isStreamSet = false;
 	private boolean mClosed = false;
@@ -72,7 +54,6 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * ����������Ŭ�� �����Ѵ�
 	 * @param lifeCycle ����� ������ ����Ŭ
 	 */
 	@Override
@@ -81,7 +62,6 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * ��Ŷ�� ����� ���̷ε�� �����ؼ� ��üȭ ��Ų��.
 	 * @param readCurrent �о���� ���� (��� + ���̷ε�)
 	 * @return
 	 */
@@ -91,29 +71,25 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 
 	@Override
 	public void life() {
+		Iterator<PacketType> iterator;
 		synchronized (mNonPreHandleMutex) {
-			Iterator<PacketType> iterator = mNonPrehandleList.iterator();
+			iterator = mNonPrehandleList.iterator();
+			mNonPrehandleList = new LinkedList<>();
+		}
 
-			while (iterator.hasNext()) {
-				pushPacket(iterator.next());
-				iterator.remove();
-			}
+		while (iterator.hasNext()) {
+			pushPacket(iterator.next());
+			iterator.remove();
 		}
 	}
 
-	/**
-	 * ��Ŷ�� �� ������ ó���ؼ� {@link #mAccumList}�� �ִ� �޼���
-	 * ���� ��Ŷ�� ������ ��Ŷ�� ��� ������ ��Ŷ���� �ջ��Ͽ� �ϳ��� ��Ŷ���� �����
-	 * ���� Ŭ������ �����Ѵ�.
-	 * @param bytes ó���� ��Ŷ(��� + ���̷ε�)
-	 */
 	private void pushPacket(PacketType bytes) {
 		Packet<PacketType> packet = preHandling(bytes);
 		mAccumList.add(packet);
 
 		if (packet.isFinal()) {
 			if (packet.isFramworkPacket()) {
-	
+
 			} else {
 				Packet<PacketType> result = combinePacket();
 				mReceiver.decodePacket(result.getData(), packet.getSequence());
@@ -127,6 +103,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		try {
 			mLifeCycle.manageLife(this);
 		} catch (Exception e) {
+			e.printStackTrace();
 			Logger.err(_TAG, "run exception");
 		}
 	}
