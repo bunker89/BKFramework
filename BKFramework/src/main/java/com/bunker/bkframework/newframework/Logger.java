@@ -48,9 +48,13 @@ public class Logger {
 		mLog.err(tag, log);
 	}
 
+	synchronized public static void err(String tag, Exception e) {
+		mLog.err(tag, e);
+	}
+
 	synchronized public static void warning(String tag, String log) {
 		mLog.warning(tag, log);
-	}	
+	}
 
 	public static void print(String tag) {
 		System.out.println(tag);
