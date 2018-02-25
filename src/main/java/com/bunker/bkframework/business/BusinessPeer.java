@@ -6,9 +6,9 @@ import com.bunker.bkframework.newframework.Resource;
 import com.bunker.bkframework.sec.SecureFactory;
 
 /**
- * ºñÁî´Ï½º ¿¬°á ·ÎÁ÷À» ±¸ÇöÇÑ Å¬·¡½º
- * ByteBufferPeer¿Í °°ÀÌ ±¸ÇöµÈ Å¬·¡½º°¡ ¾øÀ» °æ¿ì
- * ÀÌ Å¬·¡½º¿¡ BusinessConnector¸¦ ¿¬°áÇØ¼­ »ç¿ëÇÑ´Ù.
+ * ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
+ * ByteBufferPeerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+ * ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ BusinessConnectorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
  * 
  * Copyright 2016~ by bunker Corp.,
  * All rights reserved.
@@ -18,15 +18,15 @@ import com.bunker.bkframework.sec.SecureFactory;
  * s
  * 
  */
-public class BusinessPeer<PacketType> extends PeerBase<PacketType> {
-	private BusinessConnector<PacketType> mBusiness;
+public class BusinessPeer<PacketType, SendDataType, ReceiveDataType> extends PeerBase<PacketType> {
+	private BusinessConnector<PacketType, SendDataType, ReceiveDataType> mBusiness;
 
-	public BusinessPeer(PacketFactory<PacketType> factory, SecureFactory<PacketType> secFac, BusinessConnector<PacketType> business) {
+	public BusinessPeer(PacketFactory<PacketType> factory, SecureFactory<PacketType> secFac, BusinessConnector<PacketType, SendDataType, ReceiveDataType> business) {
 		super(factory, secFac);
 		mBusiness = business;
 	}
 
-	public BusinessPeer(PacketFactory<PacketType> factory, BusinessConnector<PacketType> business) {
+	public BusinessPeer(PacketFactory<PacketType> factory, BusinessConnector<PacketType, SendDataType, ReceiveDataType> business) {
 		this(factory, null, business);
 	}
 

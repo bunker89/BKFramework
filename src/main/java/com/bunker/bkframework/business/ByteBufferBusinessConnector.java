@@ -1,6 +1,5 @@
 package com.bunker.bkframework.business;
 
-import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,12 +14,12 @@ import java.util.Map;
  *
  *
  */
-public class ByteBufferBusinessConnector implements BusinessConnector<ByteBuffer> {
-	private BusinessPeer<ByteBuffer> mPeer;
-	private Business<ByteBuffer> mBusiness;
+public class ByteBufferBusinessConnector implements BusinessConnector<ByteBuffer, byte[], byte []> {
+	private BusinessPeer<ByteBuffer, byte[], byte[]> mPeer;
+	private Business<ByteBuffer, byte[], byte[]> mBusiness;
 	private Map<String, Object> mEnviroment;
 
-	public ByteBufferBusinessConnector(Business<ByteBuffer> business) {
+	public ByteBufferBusinessConnector(Business<ByteBuffer, byte[], byte[]> business) {
 		mBusiness = business;
 	}
 
@@ -46,7 +45,7 @@ public class ByteBufferBusinessConnector implements BusinessConnector<ByteBuffer
 	}
 
 	@Override
-	public BusinessConnector<ByteBuffer> getInstance(BusinessPeer<ByteBuffer> peer)
+	public BusinessConnector<ByteBuffer, byte[], byte[]> getInstance(BusinessPeer<ByteBuffer, byte[], byte[]> peer)
 			throws CloneNotSupportedException {
 		ByteBufferBusinessConnector c = (ByteBufferBusinessConnector) clone();
 		c.mPeer = peer;
