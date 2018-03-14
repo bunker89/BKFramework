@@ -103,8 +103,8 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		try {
 			mLifeCycle.manageLife(this);
 		} catch (Exception e) {
+			Logger.err(_TAG, e);
 			e.printStackTrace();
-			Logger.err(_TAG, "run exception");
 		}
 	}
 
