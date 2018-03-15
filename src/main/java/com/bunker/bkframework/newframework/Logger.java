@@ -19,7 +19,7 @@ public class Logger {
 		}
 
 		@Override
-		public void err(String title, String text) {
+		public long err(String title, String text) {
 			String tag = dateFormat.format(new Date()) + ":" + title + " : " + text;
 			System.err.println("******** error -> " + tag + "********");
 			StackTraceElement []traces = Thread.currentThread().getStackTrace();
@@ -27,15 +27,17 @@ public class Logger {
 				System.err.println("\t" + trace.getClassName() + ":" + trace.getMethodName() + "(" + trace.getLineNumber() + ")");
 			}
 			System.err.println();
+			return 0;
 		}
 
 		@Override
-		public void err(String tag, Exception e) {
+		public long err(String tag, Exception e) {
 			StackTraceElement []traces = e.getStackTrace();
 			for (StackTraceElement trace : traces) {
 				System.err.println("\t" + trace.getClassName() + ":" + trace.getMethodName() + "(" + trace.getLineNumber() + ")");
 			}
 			System.err.println();
+			return 0;
 		}
 	};
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
