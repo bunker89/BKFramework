@@ -11,6 +11,7 @@ import com.bunker.bkframework.sec.SecureFactory;
 
 /**
  * 
+ * 한글한글
  * Copyright 2016~ by bunker Corp.,
  * All rights reserved.
  * 
@@ -22,13 +23,13 @@ import com.bunker.bkframework.sec.SecureFactory;
  *
  */
 abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketReceiver<PacketType>, SecureCallback {
-	// ----------------------------------공유되는 자원----------------------------------
+	// ----------------------------------怨듭쑀�릺�뒗 �옄�썝----------------------------------
 	public static long currentTime = Calendar.getInstance().getTimeInMillis();
 	private PacketFactory<PacketType> mPacketFactory;
 	private SecureFactory<PacketType> mSecureFactory;
 	private final String _TAG = "PeerBase";
 
-	// ----------------------------------개별 자원----------------------------------
+	// ----------------------------------媛쒕퀎 �옄�썝----------------------------------
 
 	private List<Packet<PacketType>> mAccumList;
 	private LifeCycle mLifeCycle;
@@ -41,7 +42,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	private boolean isStreamSet = false;
 	private boolean mClosed = false;
 
-	// ----------------------------------��Ȳ�� ���� ������ ���� �ִ� �ڿ���----------------------------------
+	// ----------------------------------占쏙옙황占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쌍댐옙 占쌘울옙占쏙옙----------------------------------
 
 	public PeerBase(PacketFactory<PacketType> factory) {
 		this(factory, null);
@@ -54,7 +55,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * @param lifeCycle ����� ������ ����Ŭ
+	 * @param lifeCycle 占쏙옙占쏙옙占� 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙클
 	 */
 	@Override
 	public void setLifeCycle(LifeCycle lifeCycle) {
@@ -62,7 +63,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * @param readCurrent �о���� ���� (��� + ���̷ε�)
+	 * @param readCurrent 占싻억옙占쏙옙占� 占쏙옙占쏙옙 (占쏙옙占� + 占쏙옙占싱로듸옙)
 	 * @return
 	 */
 	private Packet<PacketType> preHandling(PacketType readCurrent) {
@@ -103,14 +104,14 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		try {
 			mLifeCycle.manageLife(this);
 		} catch (Exception e) {
-			Logger.err(_TAG, e);
+			Logger.err(_TAG, "run exception", e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * {@link #mAccumList}�� �׿��ִ� ��Ŷ���� �ϳ��� ��ģ��.
-	 * @return �ϳ��� ������ ��Ŷ
+	 * {@link #mAccumList}占쏙옙 占쌓울옙占쌍댐옙 占쏙옙킷占쏙옙占쏙옙 占싹놂옙占쏙옙 占쏙옙친占쏙옙.
+	 * @return 占싹놂옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙킷
 	 */
 	private Packet<PacketType> combinePacket() {
 		int size = 0;
@@ -132,7 +133,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	@Override
 	final public boolean dispatch(PacketType read) {
 		boolean ret;
-		//����ȭ ����
+		//占쏙옙占쏙옙화 占쏙옙占쏙옙
 		synchronized (mNonPreHandleMutex) {
 			ret = isHandling;
 			if (isHandling == false) {
@@ -165,7 +166,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	@Override
 	public void close() {
 		/**
-		 * ������ ���� �߻��ؼ��� �ȵȴ�.
+		 * 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쌩삼옙占쌔쇽옙占쏙옙 占싫된댐옙.
 		 */
 		if (mWriter != null) {
 			mWriter.destroy();
@@ -179,7 +180,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * ������ �ʱ�ȭ
+	 * 占쏙옙占쏙옙占쏙옙 占십깍옙화
 	 */
 	private final void init() {
 		mReceiver = this;
@@ -222,7 +223,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	@Override
 	public boolean interceptCycle() {
 		boolean ret;
-		//����ȭ ����
+		//占쏙옙占쏙옙화 占쏙옙占쏙옙
 		synchronized (mNonPreHandleMutex) {
 			ret = isHandling;
 			if (isHandling == false) {

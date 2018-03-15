@@ -31,12 +31,12 @@ public class Logger {
 		}
 
 		@Override
-		public long err(String tag, Exception e) {
+		public long err(String tag, String text, Exception e) {
 			StackTraceElement []traces = e.getStackTrace();
 			for (StackTraceElement trace : traces) {
 				System.err.println("\t" + trace.getClassName() + ":" + trace.getMethodName() + "(" + trace.getLineNumber() + ")");
 			}
-			System.err.println();
+			System.err.println(text);
 			return 0;
 		}
 	};
@@ -50,8 +50,8 @@ public class Logger {
 		mLog.err(tag, log);
 	}
 
-	synchronized public static void err(String tag, Exception e) {
-		mLog.err(tag, e);
+	synchronized public static void err(String tag, String log, Exception e) {
+		mLog.err(tag, log, e);
 	}
 
 	synchronized public static void warning(String tag, String log) {
