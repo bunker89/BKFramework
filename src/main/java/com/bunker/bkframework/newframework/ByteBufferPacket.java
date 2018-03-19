@@ -11,6 +11,9 @@ public class ByteBufferPacket implements Packet<ByteBuffer>{
 	public int mPayloadSize;
 	public ByteBuffer mPayloadBuffer;
 	private short mFlag = 0;
+	
+	ByteBufferPacket() {
+	}
 
 	public ByteBufferPacket(int size) {
 		mPayloadBuffer = ByteBuffer.allocate(size);
@@ -28,8 +31,8 @@ public class ByteBufferPacket implements Packet<ByteBuffer>{
 		mPayloadBuffer.put(packet);
 		mPayloadBuffer.position(mPayloadSize);
 	}
-	
-	private void parseFlag(short flag) {
+
+	void parseFlag(short flag) {
 		if ((flag & FLAG_LAST) == FLAG_LAST)
 			mIsFinal = true;
 		if ((flag & FLAG_FRAMEWORK_PACKET) == FLAG_FRAMEWORK_PACKET)

@@ -46,12 +46,12 @@ public class Logger {
 		mLog.log(tag, log);
 	}
 
-	synchronized public static void err(String tag, String log) {
-		mLog.err(tag, log);
+	synchronized public static long err(String tag, String log) {
+		return mLog.err(tag, log);
 	}
 
-	synchronized public static void err(String tag, String log, Exception e) {
-		mLog.err(tag, log, e);
+	synchronized public static long err(String tag, String log, Exception e) {
+		return mLog.err(tag, log, e);
 	}
 
 	synchronized public static void warning(String tag, String log) {

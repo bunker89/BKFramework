@@ -1,5 +1,9 @@
 package com.bunker.bkframework.newframework;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -27,13 +31,14 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	public static long currentTime = Calendar.getInstance().getTimeInMillis();
 	private PacketFactory<PacketType> mPacketFactory;
 	private SecureFactory<PacketType> mSecureFactory;
-	private final String _TAG = "PeerBase";
+	private final String _TAG = getClass().getName();
 
 	// ----------------------------------媛쒕퀎 �옄�썝----------------------------------
 
 	private List<Packet<PacketType>> mAccumList;
 	private LifeCycle mLifeCycle;
 	private List<PacketType> mNonPrehandleList;
+	private List<PacketType> mProcessing;
 	private Object mNonPreHandleMutex;
 	private boolean isHandling = false;
 	protected Writer<PacketType> mWriter;
@@ -75,6 +80,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		Iterator<PacketType> iterator;
 		synchronized (mNonPreHandleMutex) {
 			iterator = mNonPrehandleList.iterator();
+			mProcessing = mNonPrehandleList;
 			mNonPrehandleList = new LinkedList<>();
 		}
 
@@ -82,6 +88,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 			pushPacket(iterator.next());
 			iterator.remove();
 		}
+		mProcessing = null;
 	}
 
 	private void pushPacket(PacketType bytes) {
@@ -104,8 +111,12 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		try {
 			mLifeCycle.manageLife(this);
 		} catch (Exception e) {
-			Logger.err(_TAG, "run exception", e);
-			e.printStackTrace();
+			long id = Logger.err(_TAG, "run exception", e);
+			try {
+				logPacket(id, mAccumList, mNonPrehandleList, mProcessing);
+			} catch (IOException e1) {
+				Logger.err(_TAG, "framework packet logging exception", e1);
+			}
 		}
 	}
 
@@ -244,5 +255,36 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	@Override
 	public boolean isClosed() {
 		return mClosed;
+	}
+
+	protected void logPacket(long logId, List<Packet<PacketType>> accum, List<PacketType> nonPre, List<PacketType> processing) throws IOException {
+		File errorFolder = new File("framework_error");
+		errorFolder.mkdirs();
+		File folder = new File(errorFolder, logId + "");
+		folder.mkdir();
+
+		int index = 0;
+		Iterator<Packet<PacketType>> accumIter = accum.iterator();
+		
+		while (accumIter.hasNext()) {
+			File file = new File(folder, logId + "_" + index++);
+			FileOutputStream output = new FileOutputStream(file);
+			mPacketFactory.logging(output, accumIter.next());
+		}
+
+		index = logPacketType(logId, folder, nonPre, index);
+		index = logPacketType(logId, folder, processing, index);
+	}
+
+	private int logPacketType(long logId, File folder, List<PacketType> packets, int index) throws FileNotFoundException {
+		Iterator<PacketType> nonPreIter = packets.iterator();
+		
+		while (nonPreIter.hasNext()) {
+			File file = new File(folder, logId + "_" + index++);
+			FileOutputStream output = new FileOutputStream(file);
+			mPacketFactory.logging(output, nonPreIter.next());
+		}
+		
+		return index;
 	}
 }

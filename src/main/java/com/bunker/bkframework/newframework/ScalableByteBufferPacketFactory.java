@@ -1,5 +1,6 @@
 package com.bunker.bkframework.newframework;
 
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
 public class ScalableByteBufferPacketFactory implements PacketFactory<ByteBuffer>{
@@ -21,5 +22,14 @@ public class ScalableByteBufferPacketFactory implements PacketFactory<ByteBuffer
 	@Override
 	public Packet<ByteBuffer> creatPacket(int size) {
 		return null;
+	}
+
+	@Override
+	public void logging(OutputStream output, ByteBuffer pack) {
+		
+	}
+
+	@Override
+	public void logging(OutputStream output, Packet<ByteBuffer> pack) {
 	}
 }

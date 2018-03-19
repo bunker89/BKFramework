@@ -1,14 +1,20 @@
 package com.bunker.bkframework.business;
 
+import java.nio.ByteBuffer;
+
+import com.bunker.bkframework.newframework.FixedSizeByteBufferPacketFactory;
+import com.bunker.bkframework.newframework.LifeCycle;
+import com.bunker.bkframework.newframework.PacketByteBufferWrapper;
 import com.bunker.bkframework.newframework.PacketFactory;
 import com.bunker.bkframework.newframework.PeerBase;
+import com.bunker.bkframework.newframework.PeerLife;
 import com.bunker.bkframework.newframework.Resource;
 import com.bunker.bkframework.sec.SecureFactory;
 
 /**
- * ����Ͻ� ���� ������ ������ Ŭ����
- * ByteBufferPeer�� ���� ������ Ŭ������ ���� ���
- * �� Ŭ������ BusinessConnector�� �����ؼ� ����Ѵ�.
+ * 占쏙옙占쏙옙絿占� 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 클占쏙옙占쏙옙
+ * ByteBufferPeer占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 클占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占�
+ * 占쏙옙 클占쏙옙占쏙옙占쏙옙 BusinessConnector占쏙옙 占쏙옙占쏙옙占쌔쇽옙 占쏙옙占쏙옙磯占�.
  * 
  * Copyright 2016~ by bunker Corp.,
  * All rights reserved.
@@ -55,5 +61,45 @@ public class BusinessPeer<PacketType, SendDataType, ReceiveDataType> extends Pee
 	public void close() {
 		super.close();
 		mBusiness.removePeerAtBusiness();
+	}
+
+	public static void main(String []args) {
+		Business<ByteBuffer, byte[], byte[]> business = new Business<ByteBuffer, byte[], byte[]>() {
+			
+			@Override
+			public void removeBusinessData(PeerConnection<byte[]> connector) {
+			}
+			
+			@Override
+			public void receive(PeerConnection<byte[]> connector, byte[] data, int sequence) {
+			}
+			
+			@Override
+			public void established(PeerConnection<byte[]> b) {
+			}
+		};
+		PeerBase<ByteBuffer> peer = new BusinessPeer<>(new FixedSizeByteBufferPacketFactory(), new ByteBufferBusinessConnector(business));
+		peer.setLifeCycle(new LifeCycle() {
+			
+			@Override
+			public void manageLife(PeerLife life) {
+				while (life.needRecycle()) {
+					life.life();
+				}
+			}
+		});
+
+		String ab = "";
+
+		for (int i = 0; i < 1000; i++) {
+			ab += "ab";
+		}
+
+		ByteBuffer second = ByteBuffer.wrap(ab.getBytes());
+		PacketByteBufferWrapper wrapper = new PacketByteBufferWrapper(second);
+		ByteBuffer first = wrapper.next();
+		peer.dispatch(first);
+		peer.dispatch(ByteBuffer.allocate(2));
+		new Thread(peer).start();
 	}
 }
