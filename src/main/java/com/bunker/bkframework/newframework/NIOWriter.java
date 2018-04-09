@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.Iterator;
 
 /**
  * NIO�� Writer
@@ -41,7 +42,7 @@ public class NIOWriter implements Writer<ByteBuffer> {
 		write(new PacketByteBufferWrapper(packet));
 	}
 
-	private void write(PacketByteBufferWrapper wrapper) {
+	private void write(Iterator<ByteBuffer> wrapper) {
 		while (wrapper.hasNext()) {
 //			System.out.println(wrapper.next());
 			ByteBuffer buffer = wrapper.next();
