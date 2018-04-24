@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
+import com.bunker.bkframework.nio.ByteBufferPacket;
+
 public class FixedSizeByteBufferPacketFactory implements PacketFactory<ByteBuffer> {
 	@Override
 	public Packet<ByteBuffer> creatPacket(ByteBuffer pack) {

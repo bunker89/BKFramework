@@ -1,9 +1,14 @@
-package com.bunker.bkframework.newframework;
+package com.bunker.bkframework.nio;
 
 import java.io.IOException;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+
+import com.bunker.bkframework.newframework.Constants;
+import com.bunker.bkframework.newframework.Logger;
+import com.bunker.bkframework.newframework.Peer;
+import com.bunker.bkframework.newframework.Writer;
 
 /**
  * NIO�� Writer

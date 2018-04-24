@@ -4,11 +4,12 @@ import java.nio.ByteBuffer;
 
 import com.bunker.bkframework.newframework.FixedSizeByteBufferPacketFactory;
 import com.bunker.bkframework.newframework.LifeCycle;
-import com.bunker.bkframework.newframework.PacketByteBufferWrapper;
 import com.bunker.bkframework.newframework.PacketFactory;
 import com.bunker.bkframework.newframework.PeerBase;
 import com.bunker.bkframework.newframework.PeerLife;
 import com.bunker.bkframework.newframework.Resource;
+import com.bunker.bkframework.nio.ByteBufferBusinessConnector;
+import com.bunker.bkframework.nio.PacketByteBufferWrapper;
 import com.bunker.bkframework.sec.SecureFactory;
 
 /**

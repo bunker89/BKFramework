@@ -1,8 +1,10 @@
-package com.bunker.bkframework.newframework;
+package com.bunker.bkframework.nio;
 
 import static com.bunker.bkframework.newframework.Constants.*;
 
 import java.nio.ByteBuffer;
+
+import com.bunker.bkframework.newframework.Packet;
 
 public class ByteBufferPacket implements Packet<ByteBuffer>{
 	public boolean mIsFinal;

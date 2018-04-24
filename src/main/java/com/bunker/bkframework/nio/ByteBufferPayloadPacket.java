@@ -1,6 +1,8 @@
-package com.bunker.bkframework.newframework;
+package com.bunker.bkframework.nio;
 
 import java.nio.ByteBuffer;
+
+import com.bunker.bkframework.newframework.Packet;
 
 public class ByteBufferPayloadPacket implements Packet<ByteBuffer> {
 	private ByteBuffer mPayloadBuffer;

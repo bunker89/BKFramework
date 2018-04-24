@@ -1,4 +1,4 @@
-package com.bunker.bkframework.newframework;
+package com.bunker.bkframework.nio;
 
 import static com.bunker.bkframework.newframework.Constants.FLAG_LAST;
 import static com.bunker.bkframework.newframework.Constants.FLAG_OFFSET;
@@ -12,12 +12,12 @@ import java.nio.ByteBuffer;
 import java.util.Iterator;
 
 /**
- * µ¥ÀÌÅÍ¸¦ ÆÐÅ¶ ÀÌÅÍ·¹ÀÌÅÍ·Î¸¸µå´Â Å¬·¡½º
- * ¹öÆÛ¿Í ÇÃ·¹±×ÀÇ ÀçÈ°¿ë¿¡ ÁÖ¸ñÇØ¾ßÇÔ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½Í·Î¸ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ë¿¡ ï¿½Ö¸ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½
  * 
  * ----------------------
- * ÁÖÀÇ»çÇ×
- * ByteBuffer ¿¬»ê¿¡ ÁÖÀÇ
+ * ï¿½ï¿½ï¿½Ç»ï¿½ï¿½ï¿½
+ * ByteBuffer ï¿½ï¿½ï¿½ê¿¡ ï¿½ï¿½ï¿½ï¿½
  * ----------------------
  * 
  * Copyright 2016~ by bunker Corp.,

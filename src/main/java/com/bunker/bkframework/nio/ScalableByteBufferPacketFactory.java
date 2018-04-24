@@ -1,7 +1,10 @@
-package com.bunker.bkframework.newframework;
+package com.bunker.bkframework.nio;
 
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+
+import com.bunker.bkframework.newframework.Packet;
+import com.bunker.bkframework.newframework.PacketFactory;
 
 public class ScalableByteBufferPacketFactory implements PacketFactory<ByteBuffer>{
 	private int mPayloadSize = 0;
