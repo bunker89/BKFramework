@@ -113,7 +113,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		} catch (Exception e) {
 			long id = Logger.err(_TAG, "run exception", e);
 			try {
-				logPacket(id, mAccumList, mNonPrehandleList, mProcessing);
+				logPacket(id, mAccumList, mNonPrehandleList, mProcessing, null);
 			} catch (IOException e1) {
 				Logger.err(_TAG, "framework packet logging exception", e1);
 			}
@@ -257,34 +257,50 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		return mClosed;
 	}
 
-	protected void logPacket(long logId, List<Packet<PacketType>> accum, List<PacketType> nonPre, List<PacketType> processing) throws IOException {
+	protected void logPacket(long logId, List<Packet<PacketType>> accum, List<PacketType> nonPre, List<PacketType> processing, String message) throws IOException {
 		File errorFolder = new File("framework_error");
 		errorFolder.mkdirs();
 		File folder = new File(errorFolder, logId + "");
 		folder.mkdir();
 
+		logMessage(logId, folder, message);
+
 		int index = 0;
-		Iterator<Packet<PacketType>> accumIter = accum.iterator();
-		
-		while (accumIter.hasNext()) {
-			File file = new File(folder, logId + "_" + index++);
-			FileOutputStream output = new FileOutputStream(file);
-			mPacketFactory.logging(output, accumIter.next());
+
+		if (accum != null) {
+			Iterator<Packet<PacketType>> accumIter = accum.iterator();
+
+			while (accumIter.hasNext()) {
+				File file = new File(folder, logId + "_" + index++);
+				FileOutputStream output = new FileOutputStream(file);
+				mPacketFactory.logging(output, accumIter.next());
+				output.close();
+			}
 		}
 
-		index = logPacketType(logId, folder, nonPre, index);
-		index = logPacketType(logId, folder, processing, index);
+		if (nonPre != null)
+			index = logPacketType(logId, folder, nonPre, index);
+		if (processing != null) 
+			index = logPacketType(logId, folder, processing, index);
 	}
 
-	private int logPacketType(long logId, File folder, List<PacketType> packets, int index) throws FileNotFoundException {
+	private int logPacketType(long logId, File folder, List<PacketType> packets, int index) throws IOException {
 		Iterator<PacketType> nonPreIter = packets.iterator();
-		
+
 		while (nonPreIter.hasNext()) {
 			File file = new File(folder, logId + "_" + index++);
 			FileOutputStream output = new FileOutputStream(file);
 			mPacketFactory.logging(output, nonPreIter.next());
+			output.close();
 		}
-		
+
 		return index;
+	}
+
+	private void logMessage(long logId, File folder, String message) throws IOException {
+		File file = new File(folder, logId + "_message");
+		FileOutputStream output = new FileOutputStream(file, true);
+		output.write(message.getBytes());
+		output.close();		
 	}
 }
