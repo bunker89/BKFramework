@@ -1,7 +1,6 @@
 package com.bunker.bkframework.newframework;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
@@ -46,8 +45,6 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	private Secure<PacketType> mSecure;
 	private boolean isStreamSet = false;
 	private boolean mClosed = false;
-
-	// ----------------------------------占쏙옙황占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쌍댐옙 占쌘울옙占쏙옙----------------------------------
 
 	public PeerBase(PacketFactory<PacketType> factory) {
 		this(factory, null);

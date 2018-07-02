@@ -1,4 +1,4 @@
-package com.bunker.bkframework.newframework;
+package com.bunker.bkframework.nio;
 
 import static com.bunker.bkframework.newframework.Constants.FLAG_OFFSET;
 import static com.bunker.bkframework.newframework.Constants.PAYLOAD_SIZE_OFFSET;
@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
-import com.bunker.bkframework.nio.ByteBufferPacket;
+import com.bunker.bkframework.newframework.Logger;
+import com.bunker.bkframework.newframework.Packet;
+import com.bunker.bkframework.newframework.PacketFactory;
 
 public class FixedSizeByteBufferPacketFactory implements PacketFactory<ByteBuffer> {
 	@Override

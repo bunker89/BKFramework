@@ -50,8 +50,13 @@ public class ByteBufferBusinessConnector implements BusinessConnector<ByteBuffer
 
 	@Override
 	public BusinessConnector<ByteBuffer, byte[], byte[]> getInstance(BusinessPeer<ByteBuffer, byte[], byte[]> peer)
-			throws CloneNotSupportedException {
-		ByteBufferBusinessConnector c = (ByteBufferBusinessConnector) clone();
+			{
+		ByteBufferBusinessConnector c = null;
+		try {
+			c = (ByteBufferBusinessConnector) clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 		c.mPeer = peer;
 		c.mEnviroment = new HashMap<String, Object>();
 		return c;
