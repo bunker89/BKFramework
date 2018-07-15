@@ -12,7 +12,11 @@ public class TextWriter implements Writer<String> {
 
 	@Override
 	public void write(String b) {
-		mResult = b;
+		if (mResult != null) {
+			mResult += b;
+		} else { 
+			mResult = b;
+		}
 	}
 
 	@Override
@@ -29,6 +33,8 @@ public class TextWriter implements Writer<String> {
 	}
 
 	public String getResult() {
-		return mResult;
+		String ret = mResult;
+		mResult = null;
+		return ret;
 	}
 }
