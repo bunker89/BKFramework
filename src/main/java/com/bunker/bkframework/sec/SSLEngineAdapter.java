@@ -23,13 +23,11 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 	private SSLEngine engine;
 	private ByteBuffer payLoadIn;
 	private ByteBuffer netDataOutBuffer;
-	private ByteBuffer handShakeBuffer;
-	private ByteBuffer accum;
-	private int accumNumber;
+	private ByteBuffer mAppDataBeforeHandshake;
 	private SecureCallback mCallback;
 
 	/**
-	 * Å¬¶óÀÌ¾ðÆ® Ã÷°Û¼­ »ç¿ë
+	 * Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ® ï¿½ï¿½ï¿½Û¼ï¿½ ï¿½ï¿½ï¿½
 	 */
 	public SSLEngineAdapter(String addr, int port, SSLContext context) throws KeyManagementException, Exception {
 		engine = context.createSSLEngine(addr, port);
@@ -38,7 +36,7 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 	}
 
 	/**
-	 * ¼­¹öÃø¿¡¼­ »ç¿ë
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	 */
 	public SSLEngineAdapter(SSLContext context) throws KeyManagementException, Exception {
 		engine = context.createSSLEngine();
@@ -47,6 +45,11 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 		createBuffers(context);
 	}
 
+	public void setAppData(ByteBuffer data) {
+		mAppDataBeforeHandshake = data;
+		
+	}
+	
 	public void setUseClientAuth(boolean bool) {
 		engine.setWantClientAuth(bool);
 	}
@@ -60,7 +63,6 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 		mPeer = peer;
 		mCallback = callback;
 		try {
-			handShakeBuffer = ByteBuffer.wrap("h".getBytes());
 			sendHandShake();
 		} catch (Exception e) {
 			destroyInternal();
@@ -96,28 +98,14 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 	private void decodeHandShake(ByteBuffer netDataInBytes) throws Exception {
 		int loopGuard = 0;
 		while (netDataInBytes.hasRemaining()) {
-			SSLEngineResult clientResult = null;
-			clientResult = engine.unwrap(netDataInBytes, payLoadIn);
-			runDelegatedTasks(clientResult, engine);
-			if (!checkState(clientResult, engine))
+			SSLEngineResult engineResult = null;
+			engineResult = engine.unwrap(netDataInBytes, payLoadIn);
+			runDelegatedTasks(engineResult, engine);
+			if (!checkState(engineResult, engine))
 				break;
 
-			if (payLoadIn.position() > 0) {
-				try {
-					if (engine.getSession().getPeerCertificates().length < 1) {
-						Logger.err(_Tag, "Server Auth error");
-						destroyInternal();
-					}
-				} catch (SSLPeerUnverifiedException e1) {
-					Logger.err(_Tag, "Server Auth error");
-					destroyInternal();
-					return;
-				}
-
-				isHandShaked = true;
-				mCallback.handShaked();
-				if (accum != null)
-					write(accum, accumNumber);
+			if (engineResult.getHandshakeStatus() == HandshakeStatus.FINISHED) {
+				callHandshakedCallback();
 				return;
 			}
 
@@ -129,18 +117,37 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 		}
 	}
 
+	private void callHandshakedCallback() {
+		try {
+			if (engine.getSession().getPeerCertificates().length < 1) {
+				Logger.err(_Tag, "Server Auth error");
+				destroyInternal();
+			}
+		} catch (SSLPeerUnverifiedException e1) {
+			Logger.err(_Tag, "Server Auth error");
+			destroyInternal();
+			return;
+		}
+
+		isHandShaked = true;
+		mCallback.handShaked();
+	}
+
 	private void sendHandShake() throws Exception {
 		int loopGuard = 0;
 		while (true) {
-			SSLEngineResult clientResult = engine.wrap(handShakeBuffer, netDataOutBuffer);
-			runDelegatedTasks(clientResult, engine);
-			if (!checkState(clientResult, engine))
+			SSLEngineResult engineResult = engine.wrap(new ByteBuffer[] {mAppDataBeforeHandshake}, mAppDataBeforeHandshake == null ? 0 : 1, 0, netDataOutBuffer);
+			runDelegatedTasks(engineResult, engine);
+			if (!checkState(engineResult, engine))
 				break;
 			if (netDataOutBuffer.position() == 0)
 				break;
 			netDataOutBuffer.flip();
 			mWriter.write(netDataOutBuffer);
 			netDataOutBuffer.compact();
+			if (engineResult.getHandshakeStatus() == HandshakeStatus.FINISHED) {
+				callHandshakedCallback();
+			}
 			if (++loopGuard > 20) {
 				Logger.err(_Tag, "Loop Over at sendHandShake");
 				throw new RuntimeException();
