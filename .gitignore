@@ -3,6 +3,13 @@
 
 ### Eclipse ###
 
+# keyfile
+*.pem
+*.ppk
+*.keystore
+*.jks
+*.p12
+
 .metadata
 bin/
 tmp/
