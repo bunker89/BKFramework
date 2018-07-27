@@ -62,7 +62,6 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
         mPeer = peer;
         mCallback = callback;
         try {
-            handShakeBuffer = ByteBuffer.wrap("".getBytes());
             sendHandShake();
         } catch (Exception e) {
             destroyInternal();
@@ -93,6 +92,7 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 		 */
         payLoadIn = ByteBuffer.allocate(appBufferMax + 50);
         netDataOutBuffer = ByteBuffer.allocate(netBufferMax);
+        handShakeBuffer = ByteBuffer.wrap("".getBytes());
     }
 
     private void decodeHandShake(ByteBuffer netDataInBytes) throws Exception {
@@ -190,7 +190,6 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
         switch (result.getStatus()) {
             case CLOSED:
                 engine.closeOutbound();
-                ;
                 return false;
             default:
                 break;
@@ -281,8 +280,6 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
 
     @Override
     public void setWriteBufferSize(int size) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
