@@ -274,30 +274,30 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 				output.close();
 			}
 		}
-
+		
 		if (nonPre != null)
 			index = logPacketType(logId, folder, nonPre, index);
 		if (processing != null) 
 			index = logPacketType(logId, folder, processing, index);
 	}
-
+	
 	private int logPacketType(long logId, File folder, List<PacketType> packets, int index) throws IOException {
 		Iterator<PacketType> nonPreIter = packets.iterator();
-
+		
 		while (nonPreIter.hasNext()) {
 			File file = new File(folder, logId + "_" + index++);
 			FileOutputStream output = new FileOutputStream(file);
 			mPacketFactory.logging(output, nonPreIter.next());
 			output.close();
 		}
-
+		
 		return index;
 	}
-
+	
 	private void logMessage(long logId, File folder, String message) throws IOException {
 		File file = new File(folder, logId + "_message");
 		FileOutputStream output = new FileOutputStream(file, true);
 		output.write(message.getBytes());
-		output.close();		
+		output.close();
 	}
 }

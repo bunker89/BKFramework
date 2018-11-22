@@ -235,6 +235,9 @@ public class SSLEngineAdapter implements Secure<ByteBuffer> {
                     }
                 }
                 payLoadIn.flip();
+                //TODO must resolve this problem. 
+                //limit == 1 reurn is only for android.
+                //This can occur stream error when packet is one byte.
                 if (payLoadIn.limit() == 1) return;
                 mPeer.decodePacket(payLoadIn, sequence);
             } catch (SSLException e) {

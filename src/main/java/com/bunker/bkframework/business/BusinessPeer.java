@@ -13,11 +13,8 @@ import com.bunker.bkframework.nio.PacketByteBufferWrapper;
 import com.bunker.bkframework.sec.SecureFactory;
 
 /**
- * 占쏙옙占쏙옙絿占� 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 클占쏙옙占쏙옙
- * ByteBufferPeer占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 클占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占�
- * 占쏙옙 클占쏙옙占쏙옙占쏙옙 BusinessConnector占쏙옙 占쏙옙占쏙옙占쌔쇽옙 占쏙옙占쏙옙磯占�.
  * 
- * Copyright 2016~ by bunker Corp.,
+ * Copyright 2016~ by bunker
  * All rights reserved.
  *
  * @author Young soo Ahn <bunker.ys89@gmail.com>
