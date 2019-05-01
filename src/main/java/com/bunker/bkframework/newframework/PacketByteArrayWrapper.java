@@ -5,8 +5,8 @@ import static com.bunker.bkframework.newframework.Constants.*;
 import java.util.Iterator;
 
 /**
- * µ¥ÀÌÅÍ¸¦ ÆÐÅ¶ ÀÌÅÍ·¹ÀÌÅÍ·Î¸¸µå´Â Å¬·¡½º
- * ¹öÆÛ¿Í ÇÃ·¹±×ÀÇ ÀçÈ°¿ë¿¡ ÁÖ¸ñÇØ¾ßÇÔ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½Í·Î¸ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ë¿¡ ï¿½Ö¸ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½
  * 
  * Copyright 2016~ by bunker Corp.,
  * All rights reserved.
@@ -84,7 +84,7 @@ public class PacketByteArrayWrapper implements Iterator<byte[]> {
 		buffer[index + 2] = (byte) ((seq >> 8) & 0xff);
 		buffer[index + 3] = (byte) (seq & 0xff);
 	}
-
+	
 	@Override
 	public void remove() {
 	}

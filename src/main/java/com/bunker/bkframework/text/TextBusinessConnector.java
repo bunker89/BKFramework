@@ -6,11 +6,13 @@ import java.util.Map;
 import com.bunker.bkframework.business.Business;
 import com.bunker.bkframework.business.BusinessConnector;
 import com.bunker.bkframework.business.BusinessPeer;
+import com.bunker.bkframework.newframework.Logger;
 
 public class TextBusinessConnector implements BusinessConnector<String, String, String> {
 	private BusinessPeer<String, String, String> mPeer;
 	private Business<String, String, String> mBusiness;
 	private Map<String, Object> mEnviroment;
+	private final String _TAG = "TextBusinessConnector";
 
 	public TextBusinessConnector(Business<String, String, String> business) {
 		mBusiness = business;
@@ -34,7 +36,7 @@ public class TextBusinessConnector implements BusinessConnector<String, String, 
 	public void removePeerAtBusiness() {
 		mBusiness.removeBusinessData(this);
 	}
-
+	
 	@Override
 	public BusinessConnector<String, String, String> getInstance(BusinessPeer<String, String, String> peer)
 			{
@@ -42,7 +44,7 @@ public class TextBusinessConnector implements BusinessConnector<String, String, 
 		try {
 			c = (TextBusinessConnector) clone();
 		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
+			Logger.err(_TAG, "clonse error", e);
 		}
 		c.mPeer = peer;
 		c.mEnviroment = new HashMap<String, Object>();

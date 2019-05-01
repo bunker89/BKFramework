@@ -15,8 +15,10 @@ import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
-public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
+import com.bunker.bkframework.newframework.Logger;
 
+public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
+	private final String _TAG = "SSLSecureFactory";
 	private SSLContext mContext;
 	private String mUrl;
 	private int mPort;
@@ -28,8 +30,8 @@ public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
 	 * @param keyPass
 	 * @param trustPath
 	 * @param trustPass
-	 * @param url - º°·Î ¾ÈÁß¿ä
-	 * @param port - º°·Î ¾ÈÁß¿ä
+	 * @param url - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½
+	 * @param port - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½
 	 */
 	public SSLSecureFactory(String keyStorePath, String keyPass, String trustPath, String trustPass, String url, int port) {
 		mUrl = url;
@@ -89,13 +91,12 @@ public class SSLSecureFactory implements SecureFactory<ByteBuffer> {
 		} else {
 			File file = new File(keyStorePath);
 			if (!file.exists()) {
-				System.out.println("SSLSecureFactory:key file is not exist.");
+				Logger.err(_TAG, "SSLSecureFactory:key file is not exist.");
 				return;
 			}
 
 			FileInputStream fIn = new FileInputStream(file);
 			ks.load(fIn, keyPass.toCharArray());
-			System.out.println("SSLSecureFactory:keystore loaded.");
 		}
 	}
 

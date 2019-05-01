@@ -7,6 +7,7 @@ import java.util.Map;
 import com.bunker.bkframework.business.Business;
 import com.bunker.bkframework.business.BusinessConnector;
 import com.bunker.bkframework.business.BusinessPeer;
+import com.bunker.bkframework.newframework.Logger;
 
 /**
  * 
@@ -22,6 +23,7 @@ public class ByteBufferBusinessConnector implements BusinessConnector<ByteBuffer
 	private BusinessPeer<ByteBuffer, byte[], byte[]> mPeer;
 	private Business<ByteBuffer, byte[], byte[]> mBusiness;
 	private Map<String, Object> mEnviroment;
+	private final String _TAG = "ByteBufferBusinessConnector";
 
 	public ByteBufferBusinessConnector(Business<ByteBuffer, byte[], byte[]> business) {
 		mBusiness = business;
@@ -55,7 +57,7 @@ public class ByteBufferBusinessConnector implements BusinessConnector<ByteBuffer
 		try {
 			c = (ByteBufferBusinessConnector) clone();
 		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
+			Logger.err(_TAG, "clone error", e);
 		}
 		c.mPeer = peer;
 		c.mEnviroment = new HashMap<String, Object>();
