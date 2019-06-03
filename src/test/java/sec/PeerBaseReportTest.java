@@ -8,7 +8,6 @@ import org.junit.Test;
 import com.bunker.bkframework.newframework.Packet;
 import com.bunker.bkframework.newframework.PacketFactory;
 import com.bunker.bkframework.newframework.PeerBase;
-import com.bunker.bkframework.sec.SecureFactory;
 
 public class PeerBaseReportTest {
 	class TestPeer extends  PeerBase<String> {
@@ -23,7 +22,7 @@ public class PeerBaseReportTest {
 		}
 		
 		@Override
-		public void logPacket(long logId, List<Packet<String>> accum, List<String> nonPre, List<String> processing,
+		public void logPacket(String logId, List<Packet<String>> accum, List<String> nonPre, List<String> processing,
 				String message) throws IOException {
 			super.logPacket(logId, accum, nonPre, processing, message);
 		}
@@ -33,7 +32,7 @@ public class PeerBaseReportTest {
 	@Test
 	public void reportTest() {
 		try {
-			testpeer.logPacket(1, null, null, null, "asgbsa");
+			testpeer.logPacket("1", null, null, null, "asgbsa");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

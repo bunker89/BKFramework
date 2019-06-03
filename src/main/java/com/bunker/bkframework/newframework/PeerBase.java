@@ -108,7 +108,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		try {
 			mLifeCycle.manageLife(this);
 		} catch (Exception e) {
-			long id = Logger.err(_TAG, "run exception", e);
+			String id = Logger.err(_TAG, "run exception", e);
 			try {
 				logPacket(id, mAccumList, mNonPrehandleList, mProcessing, null);
 			} catch (IOException e1) {
@@ -254,7 +254,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		return mClosed;
 	}
 
-	protected void logPacket(long logId, List<Packet<PacketType>> accum, List<PacketType> nonPre, List<PacketType> processing, String message) throws IOException {
+	protected void logPacket(String logId, List<Packet<PacketType>> accum, List<PacketType> nonPre, List<PacketType> processing, String message) throws IOException {
 		File errorFolder = new File("framework_error");
 		errorFolder.mkdirs();
 		File folder = new File(errorFolder, logId + "");
@@ -281,7 +281,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 			index = logPacketType(logId, folder, processing, index);
 	}
 	
-	private int logPacketType(long logId, File folder, List<PacketType> packets, int index) throws IOException {
+	private int logPacketType(String logId, File folder, List<PacketType> packets, int index) throws IOException {
 		Iterator<PacketType> nonPreIter = packets.iterator();
 		
 		while (nonPreIter.hasNext()) {
@@ -294,7 +294,7 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 		return index;
 	}
 	
-	private void logMessage(long logId, File folder, String message) throws IOException {
+	private void logMessage(String logId, File folder, String message) throws IOException {
 		File file = new File(folder, logId + "_message");
 		FileOutputStream output = new FileOutputStream(file, true);
 		output.write(message.getBytes());
