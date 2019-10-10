@@ -5,28 +5,28 @@ package com.bunker.bkframework.newframework;
  * Copyright 2016~ by bunker Corp.,
  * All rights reserved.
  * 
- * ³×Æ®¿öÅ© ¼Û¼ö½Å°ú ºñÁî´Ï½º ·ÎÁ÷ »çÀÌÀÇ ·ÎÁ÷, Peer ÀÎÅÍÆäÀÌ½º´Â ¿ÀÁ÷ ³×Æ®¿öÅ© µ¥ÀÌÅÍ Ã³¸® ·ÎÁ÷¸¸ °ü·ÃµÇ¾î ÀÖ´Ù.
- * ÇÏÀ§ Å¬·¡½º¿¡¼­ ÇÊ¿äÇÑ °æ¿ì ¾ÏÈ£È­, º¹È£È­ Ã³¸®¸¦ ±¸ÇöÇÑ´Ù.
- * Å¬¶óÀÌ¾ðÆ®Ãø°ú ¼­¹öÃø¿¡¼­ °øÅëÀ¸·Î »ç¿ëÇÑ´Ù.
+ * ë„¤íŠ¸ì›Œí¬ ì†¡ìˆ˜ì‹ ê³¼ ë¹„ì¦ˆë‹ˆìŠ¤ ë¡œì§ ì‚¬ì´ì˜ ë¡œì§, Peer ì¸í„°íŽ˜ì´ìŠ¤ëŠ” ì˜¤ì§ ë„¤íŠ¸ì›Œí¬ ë°ì´í„° ì²˜ë¦¬ ë¡œì§ë§Œ ê´€ë ¨ë˜ì–´ ìžˆë‹¤.
+ * í•˜ìœ„ í´ëž˜ìŠ¤ì—ì„œ í•„ìš”í•œ ê²½ìš° ì•”í˜¸í™”, ë³µí˜¸í™” ì²˜ë¦¬ë¥¼ êµ¬í˜„í•œë‹¤.
+ * í´ë¼ì´ì–¸íŠ¸ì¸¡ê³¼ ì„œë²„ì¸¡ì—ì„œ ê³µí†µìœ¼ë¡œ ì‚¬ìš©í•œë‹¤.
  * 
  * ----------------------
- * ±Ç°í»çÇ×
+ * ê¶Œê³ ì‚¬í•­
  * 1.
- * @see LifeCycle PeerÀÇ »ý¸í ÁÖ±â¸¦ Á÷Á¢ °ü¸®ÇÏÁö ¾Ê°í LifeCycleÅ¬·¡½º¸¦ ÅëÇØ »ý¸íÁÖ±â¸¦ °ü¸®ÇÏµµ·Ï ÇÑ´Ù.
- * ´Ù½Ã¸»ÇØ {@link #dispatch(Object)}·Î µé¾î¿Â µ¥ÀÌÅÍ¸¦ °ð¹Ù·Î ÇÚµé¸µ ÇÏÁö ¾Ê°í
- * {@link #setLifeCycle(LifeCycle)}·Î µé¾î¿Â LifeCycleÀ» ÀúÀåÇØ µÎ¾ú´Ù°¡ 
- * {@link LifeCycle#manageLife(PeerLife)}¸¦ È£ÃâÇÏ¿© »ý¸íÁÖ±â¸¦ °ü¸®¹Þµµ·Ï ÇÑ´Ù.
- * »ý¸í ÁÖ±â¸¦ ºÐ¸®½ÃÅ´À¸·Î¼­ CoreÀÇ µ¿ÀÛ ÇüÅÂ(roop, event-driven)¿¡ µû¸¥ ÀÇÁ¸À» ¾ø¾Ù ¼ö ÀÖ´Ù.
+ * @see LifeCycle Peerì˜ ìƒëª… ì£¼ê¸°ë¥¼ ì§ì ‘ ê´€ë¦¬í•˜ì§€ ì•Šê³  LifeCycleí´ëž˜ìŠ¤ë¥¼ í†µí•´ ìƒëª…ì£¼ê¸°ë¥¼ ê´€ë¦¬í•˜ë„ë¡ í•œë‹¤.
+ * ë‹¤ì‹œë§í•´ {@link #dispatch(Object)}ë¡œ ë“¤ì–´ì˜¨ ë°ì´í„°ë¥¼ ê³§ë°”ë¡œ í•¸ë“¤ë§ í•˜ì§€ ì•Šê³ 
+ * {@link #setLifeCycle(LifeCycle)}ë¡œ ë“¤ì–´ì˜¨ LifeCycleì„ ì €ìž¥í•´ ë‘ì—ˆë‹¤ê°€ 
+ * {@link LifeCycle#manageLife(PeerLife)}ë¥¼ í˜¸ì¶œí•˜ì—¬ ìƒëª…ì£¼ê¸°ë¥¼ ê´€ë¦¬ë°›ë„ë¡ í•œë‹¤.
+ * ìƒëª… ì£¼ê¸°ë¥¼ ë¶„ë¦¬ì‹œí‚´ìœ¼ë¡œì„œ Coreì˜ ë™ìž‘ í˜•íƒœ(roop, event-driven)ì— ë”°ë¥¸ ì˜ì¡´ì„ ì—†ì•¨ ìˆ˜ ìžˆë‹¤.
  * 
  * 2.
- * ¿¬°áÀÌ ¿Ï·áµÈ ÈÄ¿¡ {@link #networkInited()}¸¦ È£ÃâÇØ ÁÙ °ÍÀ» ±Ç°íÇÑ´Ù.
+ * ì—°ê²°ì´ ì™„ë£Œëœ í›„ì— {@link #networkInited()}ë¥¼ í˜¸ì¶œí•´ ì¤„ ê²ƒì„ ê¶Œê³ í•œë‹¤.
  * ----------------------
  * 
  * 
  * ----------------------
- * ÁÖÀÇ»çÇ×
+ * ì£¼ì˜ì‚¬í•­
  * 1.
- * @see #networkInited()°¡ ¿Ï·áµÈ ÈÄ ³²Àº ·ÎÁ÷ÀÌ ¸ðµÎ ¼öÇàµÇµµ·Ï ÇÑ´Ù.
+ * @see #networkInited()ê°€ ì™„ë£Œëœ í›„ ë‚¨ì€ ë¡œì§ì´ ëª¨ë‘ ìˆ˜í–‰ë˜ë„ë¡ í•œë‹¤.
  * ----------------------
  * 
  * 
@@ -37,53 +37,53 @@ package com.bunker.bkframework.newframework;
  */
 public interface Peer <PacketType> extends Runnable, Cloneable, PeerLife {
 	/**
-	 * ÆÐÅ¶À» ÇÚµé¸µ ÇÏ±â À§ÇØ ³×Æ®¿öÅ© ¼Û¼ö½Å ·ÎÁ÷¿¡¼­ ÀÐ¾îµéÀÎ µ¥ÀÌÅÍ¸¦ Àü¼Û¹Þ´Â´Ù.
-	 * @param read ÆÐÅ¶
+	 * íŒ¨í‚·ì„ í•¸ë“¤ë§ í•˜ê¸° ìœ„í•´ ë„¤íŠ¸ì›Œí¬ ì†¡ìˆ˜ì‹  ë¡œì§ì—ì„œ ì½ì–´ë“¤ì¸ ë°ì´í„°ë¥¼ ì „ì†¡ë°›ëŠ”ë‹¤.
+	 * @param read íŒ¨í‚·
 	 * @return
 	 */
 	public boolean dispatch(PacketType read);
 	
 	/**
-	 * peerÀÇ ¿¬°áÀ» Á¾·áÇÑ´Ù.
-	 * close¸¦ ºÎ¸£´Â °´Ã¼°¡ PeerÀÇ Thread°¡ ¾Æ´Ï¶ó CoreÀÏ ¼öµµ ÀÖ´Ù. 
+	 * peerì˜ ì—°ê²°ì„ ì¢…ë£Œí•œë‹¤.
+	 * closeë¥¼ ë¶€ë¥´ëŠ” ê°ì²´ê°€ Peerì˜ Threadê°€ ì•„ë‹ˆë¼ Coreì¼ ìˆ˜ë„ ìžˆë‹¤. 
 	 */
 	public void close();
 	
 	/**
 	 * clone
-	 * @return º¹Á¦µÈ Å¬·¡½º
+	 * @return ë³µì œëœ í´ëž˜ìŠ¤
 	 * @throws CloneNotSupportedException
 	 */
 	public Peer<PacketType >clone() throws CloneNotSupportedException;
 	
 	/**
-	 * »ý¸í ÁÖ±â¸¦ °ü¸®ÇÒ LifeCycle Å¬·¡½º¸¦ Àü´Þ¹Þ´Â´Ù.
-	 * ÀÚ¼¼ÇÑ »çÇ×Àº ±Ç°í»çÇ× 1.À» ÂüÁ¶ÇÑ´Ù.
+	 * ìƒëª… ì£¼ê¸°ë¥¼ ê´€ë¦¬í•  LifeCycle í´ëž˜ìŠ¤ë¥¼ ì „ë‹¬ë°›ëŠ”ë‹¤.
+	 * ìžì„¸í•œ ì‚¬í•­ì€ ê¶Œê³ ì‚¬í•­ 1.ì„ ì°¸ì¡°í•œë‹¤.
 	 * 
 	 * @param l
 	 */
 	public void setLifeCycle(LifeCycle l);
 	
 	/**
-	 * ¾²±â À§ÇÑ °´Ã¼¸¦ ÁöÁ¤ÇÑ´Ù.
-	 * @see Writer ¾²±â ºÎºÐÀ» ºÐ¸® ½ÃÅ´À¸·Î¼­ ¹öÆÛÀÇ ÇüÅÂ¿Í °ü·ÃµÈ ÀÇÁ¸À» ¾ø¾Ø´Ù. 
+	 * ì“°ê¸° ìœ„í•œ ê°ì²´ë¥¼ ì§€ì •í•œë‹¤.
+	 * @see Writer ì“°ê¸° ë¶€ë¶„ì„ ë¶„ë¦¬ ì‹œí‚´ìœ¼ë¡œì„œ ë²„í¼ì˜ í˜•íƒœì™€ ê´€ë ¨ëœ ì˜ì¡´ì„ ì—†ì•¤ë‹¤. 
 	 * 
 	 * @param writer
 	 */
 	public void setWriter(Writer<PacketType> writer);
 	
 	/**
-	 * ³×Æ®¿öÅ©°¡ ¿¬°áµÇ¾î
-	 * writer¿Í packetReceiver°¡ ÁöÁ¤ µÇ¾úÀ» ¶§ È£ÃâÇÑ´Ù.
-	 * ¹Ýµå½Ã ¸ðµç ·ÎÁ÷Àº networkInited()°¡ ¿Ï·á µÈ ÈÄ Ã³¸®µÈ´Ù.
+	 * ë„¤íŠ¸ì›Œí¬ê°€ ì—°ê²°ë˜ì–´
+	 * writerì™€ packetReceiverê°€ ì§€ì • ë˜ì—ˆì„ ë•Œ í˜¸ì¶œí•œë‹¤.
+	 * ë°˜ë“œì‹œ ëª¨ë“  ë¡œì§ì€ networkInited()ê°€ ì™„ë£Œ ëœ í›„ ì²˜ë¦¬ëœë‹¤.
 	 * 
-	 * @param resource °´Ã¼ÀÇ ¸®¼Ò½º
+	 * @param resource ê°ì²´ì˜ ë¦¬ì†ŒìŠ¤
 	 */
 	public void networkInited(Resource<PacketType> resource);
 	
 	/**
-	 * ÇÇ¾î°¡ ´ÝÇû´ÂÁö ¿©ºÎ¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @return ´ÝÈû ¿©ºÎ
+	 * í”¼ì–´ê°€ ë‹«í˜”ëŠ”ì§€ ì—¬ë¶€ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @return ë‹«íž˜ ì—¬ë¶€
 	 */
 	public boolean isClosed();
 }
