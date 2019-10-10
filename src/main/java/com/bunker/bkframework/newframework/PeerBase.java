@@ -26,13 +26,11 @@ import com.bunker.bkframework.sec.SecureFactory;
  *
  */
 abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketReceiver<PacketType>, SecureCallback {
-	// ----------------------------------怨듭쑀�릺�뒗 �옄�썝----------------------------------
 	public static long currentTime = Calendar.getInstance().getTimeInMillis();
 	private PacketFactory<PacketType> mPacketFactory;
 	private SecureFactory<PacketType> mSecureFactory;
 	private final String _TAG = getClass().getName();
 
-	// ----------------------------------媛쒕퀎 �옄�썝----------------------------------
 
 	private List<Packet<PacketType>> mAccumList;
 	private LifeCycle mLifeCycle;
@@ -57,7 +55,6 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * @param lifeCycle 占쏙옙占쏙옙占� 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙클
 	 */
 	@Override
 	public void setLifeCycle(LifeCycle lifeCycle) {
@@ -65,7 +62,6 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * @param readCurrent 占싻억옙占쏙옙占� 占쏙옙占쏙옙 (占쏙옙占� + 占쏙옙占싱로듸옙)
 	 * @return
 	 */
 	private Packet<PacketType> preHandling(PacketType readCurrent) {
@@ -118,8 +114,6 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * {@link #mAccumList}占쏙옙 占쌓울옙占쌍댐옙 占쏙옙킷占쏙옙占쏙옙 占싹놂옙占쏙옙 占쏙옙친占쏙옙.
-	 * @return 占싹놂옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙킷
 	 */
 	private Packet<PacketType> combinePacket() {
 		int size = 0;
@@ -141,7 +135,6 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	@Override
 	final public boolean dispatch(PacketType read) {
 		boolean ret;
-		//占쏙옙占쏙옙화 占쏙옙占쏙옙
 		synchronized (mNonPreHandleMutex) {
 			ret = isHandling;
 			if (isHandling == false) {
@@ -174,7 +167,6 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	@Override
 	public void close() {
 		/**
-		 * 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쌩삼옙占쌔쇽옙占쏙옙 占싫된댐옙.
 		 */
 		if (mWriter != null) {
 			mWriter.destroy();
@@ -188,7 +180,6 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	}
 
 	/**
-	 * 占쏙옙占쏙옙占쏙옙 占십깍옙화
 	 */
 	private final void init() {
 		mReceiver = this;
@@ -231,7 +222,6 @@ abstract public class PeerBase<PacketType> implements Peer<PacketType>, PacketRe
 	@Override
 	public boolean interceptCycle() {
 		boolean ret;
-		//占쏙옙占쏙옙화 占쏙옙占쏙옙
 		synchronized (mNonPreHandleMutex) {
 			ret = isHandling;
 			if (isHandling == false) {
