@@ -33,6 +33,7 @@ public class Logger {
 		@Override
 		public String err(String tag, String text, Exception e) {
 			StackTraceElement []traces = e.getStackTrace();
+			System.err.print("\t" + e.getMessage());
 			for (StackTraceElement trace : traces) {
 				System.err.println("\t" + trace.getClassName() + ":" + trace.getMethodName() + "(" + trace.getLineNumber() + ")");
 			}
